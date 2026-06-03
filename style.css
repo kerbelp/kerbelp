@@ -612,8 +612,8 @@ section { position: relative; z-index: 2; scroll-margin-top: 84px; }
    Hero
    ============================================================ */
 .hero {
-  padding-top: 168px;
-  padding-bottom: 96px;
+  padding-top: 120px;
+  padding-bottom: 64px;
 }
 .hero-in { max-width: 880px; }
 .hero.center .hero-in { margin: 0 auto; text-align: center; }
@@ -1012,7 +1012,7 @@ section { position: relative; z-index: 2; scroll-margin-top: 84px; }
    ============================================================ */
 .footer {
   border-top: 1px solid var(--line);
-  margin-top: 96px;
+  margin-top: 64px;
   padding: 40px 0 56px;
 }
 .footer-in {
@@ -1161,5 +1161,5 @@ html.ready .reveal {
   html.ready .reveal { animation: none; }
 }
 
-.block { padding: 96px 0; }
-@media (max-width: 640px) { .block { padding: 68px 0; } }
+.block { padding: 64px 0; }
+@media (max-width: 640px) { .block { padding: 48px 0; } }
