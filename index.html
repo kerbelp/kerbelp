@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavel Kerbel — Principal Software Engineer &amp; Distributed Systems Architect</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Pavel Kerbel - Principal Software Engineer &amp; Distributed Systems Architect specializing in enterprise-scale cloud infrastructure and GenAI agent architectures. Alumnus of Meta, Microsoft, and Palo Alto Networks.">
+  <meta property="og:title" content="Pavel Kerbel — Principal Software Engineer &amp; Distributed Systems Architect">
+  <meta property="og:description" content="Enterprise-scale cloud infrastructure and production-grade GenAI agent architectures.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pavelkerbel.com">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grain"></div>
+  
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="#top" id="brand-logo">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="#projects" class="nav-link active" data-sec="projects">Projects</a>
+        <a href="#writing" class="nav-link" data-sec="writing">Writing</a>
+        <a href="#stack" class="nav-link" data-sec="stack">Stack</a>
+        <a href="#contact" class="nav-link" data-sec="contact">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="top" class="hero">
+      <div class="wrap">
+        <div class="hero-in">
+          <div class="hero-status reveal">
+            <span class="dot"></span> Available for principal &amp; architecture roles
+          </div>
+          <h1 class="reveal">
+            Pavel Kerbel
+            <span class="role">Principal Software Engineer &amp;<br>Distributed Systems Architect</span>
+          </h1>
+          <p class="hero-sub reveal">
+            Building <strong>enterprise-scale cloud infrastructure</strong> and <strong>production-grade GenAI agent architectures</strong>. Alumnus of Meta, Microsoft, and Palo Alto Networks.
+          </p>
+          <div class="hero-cta reveal">
+            <button class="btn btn-primary" id="btn-view-projects">
+              View Projects <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="btn btn-ghost" id="btn-read-writing">
+              Read Writing
+            </button>
+          </div>
+          <div class="hero-badges reveal">
+            <span class="lbl">Previously</span>
+            <b>Meta</b><span class="sep">/</span>
+            <b>Microsoft</b><span class="sep">/</span>
+            <b>Palo Alto Networks</b>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Bento Section -->
+    <section id="projects" class="block">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="eyebrow">Selected Work</span>
+            <h2 class="sec-title">Systems I've designed &amp; shipped</h2>
+          </div>
+          <a class="sec-link" href="https://github.com/kerbelp" target="_blank" rel="noreferrer">
+            All repositories <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+        </div>
+        
+        <div class="bento reveal">
+          <!-- Metatron Card -->
+          <article class="card card-span-4" data-project-id="metatron" role="button" tabindex="0">
+            <div class="card-top">
+              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6 10.4 16M16.4 8.7 13.4 16M8.3 6.4h7.4"/></svg></div>
+              <span class="card-kind">MCP · Agent Infra</span>
+            </div>
+            <h3>Metatron</h3>
+            <p>A self-hosted system that maps complex codebase decisions into structured priors, served over Model Context Protocol to autonomous coding agents.</p>
+            <div class="card-foot">
+              <span class="chip">TypeScript</span>
+              <span class="chip">MCP</span>
+              <span class="chip">Vector Store</span>
+              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            </div>
+          </article>
+
+          <!-- Gemma Guard Card -->
+          <article class="card card-span-2" data-project-id="gemma" role="button" tabindex="0">
+            <div class="card-top">
+              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v2.5M15 2v2.5M9 19.5V22M15 19.5V22M2 9h2.5M2 15h2.5M19.5 9H22M19.5 15H22"/></svg></div>
+              <span class="card-kind">On-device AI · Android</span>
+            </div>
+            <h3>Gemma 4 Edge AI App</h3>
+            <p>A native Android app running a local Gemma 4 E2 model for fully private, on-device text processing under strict mobile hardware constraints.</p>
+            <div class="card-foot">
+              <span class="chip">Kotlin</span>
+              <span class="chip">Gemma 4</span>
+              <span class="chip">On-device</span>
+              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            </div>
+          </article>
+
+          <!-- AI Collection Card -->
+          <article class="card card-span-2" data-project-id="aicollection" role="button" tabindex="0">
+            <div class="card-top">
+              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg></div>
+              <span class="card-kind">Open Source · Platform</span>
+            </div>
+            <h3>AI Collection</h3>
+            <p>An open-source ecosystem and discovery platform for AI tools — grown into one of the most-starred curated lists in the space.</p>
+            <div class="card-stats">
+              <div class="stat">
+                <span class="num" id="stat-stars" data-target="8700" data-suffix="+">0+</span>
+                <span class="lbl">GitHub stars</span>
+              </div>
+              <div class="stat">
+                <span class="num" id="stat-clicks" data-target="250" data-suffix="K+">0K+</span>
+                <span class="lbl">Search clicks</span>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span class="chip">Open Source</span>
+              <span class="chip">Community</span>
+              <span class="chip">SEO</span>
+              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            </div>
+          </article>
+
+          <!-- Z-Mail Agent Card -->
+          <article class="card card-span-4" data-project-id="zmail" role="button" tabindex="0">
+            <div class="card-top">
+              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h4a3 3 0 0 1 3 3v6"/></svg></div>
+              <span class="card-kind">Agentic Workflows</span>
+            </div>
+            <h3>Z-Mail Agent</h3>
+            <p>A production-grade email automation framework built on LangGraph for deterministic, non-linear agentic workflows.</p>
+            <div class="card-foot">
+              <span class="chip">Python</span>
+              <span class="chip">LangGraph</span>
+              <span class="chip">LLM</span>
+              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Writing Section -->
+    <section id="writing" class="block">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="eyebrow">Writing</span>
+            <h2 class="sec-title">Architectural deep-dives</h2>
+          </div>
+          <a class="sec-link" href="#">All essays <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
+        <div class="writing-list reveal">
+          <a class="post" href="#" target="_blank" rel="noreferrer">
+            <div class="post-main">
+              <div class="post-meta">
+                <span class="post-tag">AWS · Data Warehouse</span>
+                <span>·</span>
+                <span>Series · 3 parts</span>
+              </div>
+              <h3>The Hitchhiker's Guide to AWS Redshift (Parts 1–3)</h3>
+              <p class="post-desc">A three-part deep-dive into Redshift architecture, distribution keys, and the query-planner mental models that actually move performance.</p>
+            </div>
+            <div class="post-right">
+              <span>24 min</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
+          
+          <a class="post" href="#" target="_blank" rel="noreferrer">
+            <div class="post-main">
+              <div class="post-meta">
+                <span class="post-tag">Edge Databases</span>
+                <span>·</span>
+                <span>2026</span>
+              </div>
+              <h3>Migrating from PlanetScale to Turso: Edge Database Architecture</h3>
+              <p class="post-desc">What changes when your database lives at the edge — replication topology, latency math, and the migration path that kept zero downtime.</p>
+            </div>
+            <div class="post-right">
+              <span>11 min</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
+
+          <a class="post" href="https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1775994235038" target="_blank" rel="noreferrer">
+            <div class="post-main">
+              <div class="post-meta">
+                <span class="post-tag">On-device ML</span>
+                <span>·</span>
+                <span>2026</span>
+              </div>
+              <h3>Optimizing Local Token Throughput on Mobile Hardware</h3>
+              <p class="post-desc">Quantization, memory pressure, and thermal throttling — squeezing usable tokens/sec out of a Gemma model on a phone.</p>
+            </div>
+            <div class="post-right">
+              <span>9 min</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack Section -->
+    <section id="stack" class="block">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <span class="eyebrow">Stack</span>
+            <h2 class="sec-title">Tools I reach for</h2>
+            <p class="sec-sub">A working set across distributed systems, cloud infrastructure, and production GenAI — not an exhaustive list.</p>
+          </div>
+        </div>
+        <div class="stack-grid reveal">
+          <div class="stack-col">
+            <h4><span class="ix">01</span> Languages</h4>
+            <ul>
+              <li>TypeScript / Node</li>
+              <li>Python</li>
+              <li>Kotlin</li>
+              <li>Go</li>
+              <li>SQL</li>
+            </ul>
+          </div>
+          <div class="stack-col">
+            <h4><span class="ix">02</span> Cloud &amp; Infra</h4>
+            <ul>
+              <li>AWS (Redshift, ECS)</li>
+              <li>Kubernetes</li>
+              <li>Terraform</li>
+              <li>Edge (Turso)</li>
+              <li>Docker</li>
+            </ul>
+          </div>
+          <div class="stack-col">
+            <h4><span class="ix">03</span> AI / ML</h4>
+            <ul>
+              <li>LangGraph</li>
+              <li>Model Context Protocol</li>
+              <li>Gemma / on-device</li>
+              <li>Vector stores</li>
+              <li>Quantization</li>
+            </ul>
+          </div>
+          <div class="stack-col">
+            <h4><span class="ix">04</span> Data &amp; Systems</h4>
+            <ul>
+              <li>Distributed systems</li>
+              <li>PlanetScale</li>
+              <li>Event streaming</li>
+              <li>Observability</li>
+              <li>CI / CD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="block">
+      <div class="wrap">
+        <div class="contact reveal">
+          <span class="eyebrow" style="justify-content: center; display: inline-flex;">Contact</span>
+          <h2 style="margin-top: 16px;">Let's build something<br>that has to scale.</h2>
+          <p>Open to principal-level and architecture conversations around distributed systems and production GenAI.</p>
+          <div class="contact-actions">
+            <button class="email-btn" id="btn-copy-email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> hello@pavelkerbel.com
+            </button>
+            <a class="btn btn-primary" href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer">
+              Connect on LinkedIn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <!-- Modal scrim and template container -->
+  <div class="modal-scrim" id="project-modal" style="display: none;">
+    <div class="modal" id="modal-content">
+      <!-- Dynamic Content Injector -->
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-notification">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Email copied to clipboard
+  </div>
+
+  <!-- Vanilla JS logic -->
+  <script src="app.js"></script>
+</body>
+</html>
