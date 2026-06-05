@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local or Remote? A Decision Rule for Scheduling AI Agents — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="A field note on scheduling autonomous AI agents with Claude Code routines: when to run a routine remote vs local, why an agent's instructions belong in version control, and how permission modes like auto mode save time on non-destructive jobs.">
+  <meta name="keywords" content="Claude Code routines, Claude routines, scheduled AI agents, AI agent automation, MCP connector, Claude Code, remote vs local agents, agent permission modes, auto mode, cron AI agent">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/local-or-remote-scheduling-ai-agents/">
+  <meta property="og:title" content="Local or Remote? A Decision Rule for Scheduling AI Agents">
+  <meta property="og:description" content="The hard question about a scheduled agent isn't what it does — it's where it runs. The deciding axis is the secret, not the task.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/local-or-remote-scheduling-ai-agents/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="agents,routines,claude-code,mcp,automation,ai-infrastructure">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          All writing
+        </a>
+
+        <header class="article-head">
+          <span class="article-tag">Agent Infrastructure</span>
+          <h1>Local or Remote? A Decision Rule for Scheduling AI Agents</h1>
+          <div class="article-meta">
+            <span>Jun 5, 2026</span>
+            <span class="sep">/</span>
+            <span>7 min read</span>
+            <span class="sep">/</span>
+            <span>Claude Code · MCP · Cron</span>
+          </div>
+          <p class="article-lede">
+            Once you can put an autonomous coding agent on a cron, the interesting question stops being <em>what</em> it should do and becomes <em>where</em> it should run. There's a clean rule for that, and it has almost nothing to do with the task. It comes down to how the job authenticates to the outside world.
+          </p>
+          <div class="tags">
+            <a class="tag-chip" href="../?tag=agents">#agents</a>
+            <a class="tag-chip" href="../?tag=routines">#routines</a>
+            <a class="tag-chip" href="../?tag=claude-code">#claude-code</a>
+            <a class="tag-chip" href="../?tag=mcp">#mcp</a>
+            <a class="tag-chip" href="../?tag=automation">#automation</a>
+            <a class="tag-chip" href="../?tag=ai-infrastructure">#ai-infrastructure</a>
+          </div>
+        </header>
+
+        <div class="prose">
+          <p>
+            I have been running a handful of scheduled agents against a production codebase — jobs that drain a translation queue, generate review drafts, and triage an inbox. Each one is a short prompt fired on a schedule, with tools attached. The first time you wire one up, you spend your energy on the prompt. By the third, you realize the prompt was the easy part. The decision that actually matters is the runtime: does this agent run in a <strong>cloud sandbox</strong> or on <strong>your own machine</strong>?
+          </p>
+          <p>
+            Both are real options, and they fail in different ways if you pick wrong. Here is the model I landed on.
+          </p>
+
+          <h2>Routines in Claude Code — and who else offers them</h2>
+          <p>
+            Scheduled autonomous agents have quietly become something you can buy off the shelf. Anthropic ships <strong>routines</strong> in <strong>Claude Code</strong>; OpenAI has scheduled <strong>tasks</strong> in ChatGPT; and plenty of teams bolt an agent onto a plain <strong>cron</strong> job or a <strong>GitHub Actions</strong> scheduled workflow. The vocabulary differs, but the shape is identical: a prompt, a schedule, and a set of tools.
+          </p>
+          <p>
+            Everything in this piece, I run with <strong>Claude Code routines</strong>. It's a useful system to reason about because it exposes <em>both</em> runtimes directly — a <strong>remote routine</strong> that executes in Anthropic's cloud, and a <strong>local scheduled task</strong> that runs on my own machine. The same rule below tells me which to reach for each time.
+          </p>
+          <div class="callout">
+            <p class="callout-label">The part that still surprises people</p>
+            <p>You don't hand-write any of this. I describe the job to Claude Code in plain language and it <strong>writes and registers the routine for me</strong> — drafts the prompt, picks the cron schedule, attaches the right connector, and creates the routine. The agent sets up the agent. What's left for me is the two decisions below, which no tool can make on my behalf.</p>
+          </div>
+
+          <h2>Two places an agent can run</h2>
+          <p>
+            A <strong>remote routine</strong> executes in a managed cloud sandbox. It gets a fresh checkout of your repository, a clean toolset, and whatever connectors you attach — then it runs and disappears. Nothing persists between invocations. It never touches your laptop, which means it keeps running whether or not you are at your desk.
+          </p>
+          <p>
+            A <strong>local routine</strong> runs on a machine you control, inside your real working directory. It inherits that environment: your <code>.env</code> file, your network, any local services, your filesystem. It is only "up" when the machine is up.
+          </p>
+          <p>
+            The temptation is to choose based on the task — "this one feels important, run it in the cloud." That instinct is wrong. The task doesn't decide. The <em>secret</em> does.
+          </p>
+
+          <h2>The deciding axis is the secret, not the task</h2>
+          <p>
+            Every useful agent has to authenticate to something: an email account, a database, an object store, a third-party API. How it holds that credential is the entire decision.
+          </p>
+          <p>
+            If the job reaches the outside world through an <strong>MCP connector</strong> — a Model Context Protocol server you authorize once — then the credential lives <em>inside the connector</em>, held by the platform. You never hand the secret to the agent. You attach the connector by reference and the platform injects auth at run time. That job is a perfect fit for a remote routine: the sandbox needs no secrets of its own, so the fact that it is ephemeral and off-machine costs you nothing.
+          </p>
+          <p>
+            If instead the job needs <strong>raw secrets from your <code>.env</code></strong> — a database URL and token, cloud keys with a specific credential chain, anything your repo code reads from <code>process.env</code> — then a remote sandbox is the wrong home. It has no access to your local environment, and you should never smuggle those secrets in through the prompt (the prompt is stored and logged; that is how credentials leak). A local routine already has that environment sitting next to it. Run it there.
+          </p>
+
+          <div class="callout">
+            <p class="callout-label">The rule</p>
+            <p><strong>Connector-shaped access → remote.</strong> The connector holds the credential, so the cloud sandbox needs nothing. <strong>Secret-shaped access (<code>.env</code>, local services) → local.</strong> The machine already holds what the job needs, and secrets never have to travel.</p>
+          </div>
+
+          <table class="rule-table">
+            <thead>
+              <tr><th>Job needs…</th><th>Run it</th><th>Why</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>An MCP connector (email, chat, SaaS)</td>
+                <td class="accent-cell">Remote</td>
+                <td>Credential lives in the connector; sandbox carries no secret and runs even when you're offline.</td>
+              </tr>
+              <tr>
+                <td>Database / object-store / API keys from <code>.env</code></td>
+                <td class="accent-cell">Local</td>
+                <td>The cloud sandbox can't see your environment, and prompts are the wrong place for secrets.</td>
+              </tr>
+              <tr>
+                <td>Both a connector and local secrets</td>
+                <td class="accent-cell">Local</td>
+                <td>The hard constraint wins. Local can also reach a connector; remote can't reach your <code>.env</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            In practice this sorts itself cleanly. My inbox-triage agent only needs an email connector, so it runs remotely on an hourly cron and never depends on my laptop being awake. My translation worker and draft generator both read a Turso database and write to S3 with specific credentials — those stay local, where the environment they need already exists.
+          </p>
+
+          <h2>Instructions are code, so version them</h2>
+          <p>
+            The second thing I changed was where the instructions live. The obvious approach is to paste the agent's instructions straight into the routine's config in a UI. It works, and it rots immediately. The moment you have two or three routines, you have two or three blobs of important operational logic sitting outside source control — unreviewable, undiffable, and prone to drift.
+          </p>
+          <p>
+            So I inverted it. The instructions live as a Markdown file in the repository, under version control, and the routine config is a <strong>thin pointer</strong> that tells the agent to go read it:
+          </p>
+          <pre><code>---
+name: email-triage
+description: Read and reply to inbox for the project
+---
+
+Read and follow these instructions: docs/routines/email-triage.md</code></pre>
+          <p>
+            That is the whole config. Everything that actually governs behavior — the classification rules, the reply templates, the safety limits — is a reviewed file in the repo. The payoff is the same payoff you get from treating anything as code:
+          </p>
+          <ul>
+            <li><strong>One source of truth.</strong> I had a routine whose pasted instructions had silently diverged into a stale copy of a doc that already existed in the repo. Pointing both at the same file made that class of bug impossible.</li>
+            <li><strong>Review and history.</strong> A change to how an agent emails real people now goes through a diff and a commit, not an untracked text box.</li>
+            <li><strong>Shared across runtimes.</strong> A local routine and a remote one can read the <em>same</em> file. Local and cloud stay byte-for-byte identical because they literally share the instructions.</li>
+          </ul>
+
+          <h2>What the remote sandbox takes away</h2>
+          <p>
+            Choosing remote buys you independence from your machine, but it takes something back, and you have to design around it: <strong>there is no persistent filesystem between runs.</strong> Each invocation starts clean. Any state you scribble to disk is gone by the next hour.
+          </p>
+          <p>
+            That breaks the lazy way of making a recurring job idempotent — a local file of "already handled" IDs. On a remote routine that file never survives, so the agent would happily reprocess the same work every run. The fix is to push the dedup state <em>into the system the agent already talks to</em>. For my inbox agent, that meant labeling each handled message server-side and skipping anything already carrying the label. The mailbox itself becomes the memory. It is more robust anyway — it survives across machines, sessions, and runtimes, none of which a local scratch file does.
+          </p>
+          <p>
+            Two guardrails that fall out of the same reasoning:
+          </p>
+          <ul>
+            <li><strong>Never put a secret in the prompt or the config.</strong> Both are stored and logged. If a job's auth can't be expressed as an attached connector, that is a strong signal it belongs local.</li>
+            <li><strong>Don't assume your <code>process.env</code> exists remotely.</strong> Repo code that reads environment variables will find them empty in the sandbox unless the value arrived through a connector or a managed environment.</li>
+          </ul>
+
+          <h2>A note on permission modes</h2>
+          <p>
+            A scheduled agent runs with nobody watching, which pushes permissions to the front. Interactively, Claude Code asks before it edits a file or runs a command. A routine can't field those prompts — there's no human at the keyboard at 9am — so you set its authority up front. Two ways to do that: an explicit <strong>allowlist</strong> of the exact tools it may use, or an <strong>auto mode</strong> that classifies each action and auto-approves the ones it judges safe.
+          </p>
+          <p>
+            Here's the practical part. If the routine is <strong>non-destructive</strong> — it only reads, or it only writes to a queue, a draft table, or scratch space it owns — then <strong>auto mode is a real time-saver</strong>. There's nothing to guard, so prompting for every step is pure friction; let it run unattended. I lean on this for the read-and-summarize and draft-generating jobs, and it's the difference between a routine that quietly does its work and one that stalls forever waiting on a confirmation no one will click.
+          </p>
+          <p>
+            The moment a routine can do something <strong>irreversible</strong> — email real people, write to production, delete anything — I tighten back up: a narrow allowlist, or a human-in-the-loop step where the agent proposes and I approve. Match the leash to the blast radius. Auto mode for the harmless jobs; a tight allowlist for the ones that bite.
+          </p>
+
+          <hr>
+
+          <h2>The rule of thumb</h2>
+          <p>
+            When I add a new scheduled agent now, I don't start with the prompt. I ask one question: <strong>how does this job authenticate?</strong> If the answer is "through a connector," it runs in the cloud and I stop worrying about my laptop. If the answer is "with secrets from my environment," it runs local. Then — wherever it runs — its instructions go into a versioned file, and the routine just points at it.
+          </p>
+          <p>
+            Two questions, really. <em>Where does the secret live,</em> and <em>where do the instructions live.</em> Get those right and the prompt is the easy part again.
+          </p>
+        </div>
+
+        <div class="article-foot">
+          <span class="sig">Written by <b>Pavel Kerbel</b> — Principal Software Engineer &amp; Distributed Systems Architect.</span>
+          <a class="backlink" href="../">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            More writing
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <!-- minimal, self-contained: header blur on scroll + enable reveal -->
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>

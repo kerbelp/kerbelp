@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("btn-view-projects").addEventListener("click", () => scrollToSection("projects"));
-  document.getElementById("btn-read-writing").addEventListener("click", () => scrollToSection("writing"));
+  // "Read Writing" is now a real link to /blog/ (no scroll handler needed).
 
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", (e) => {

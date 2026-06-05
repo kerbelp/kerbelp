@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — Pavel Kerbel</title>
+
+  <meta name="description" content="Essays and field notes from Pavel Kerbel — distributed systems, cloud infrastructure, and production-grade GenAI agent architectures.">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/">
+  <meta property="og:title" content="Writing — Pavel Kerbel">
+  <meta property="og:description" content="Essays on distributed systems, cloud infrastructure, and production GenAI agent architectures.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/">
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../#projects" class="nav-link">Projects</a>
+        <a href="./" class="nav-link active">Writing</a>
+        <a href="../#stack" class="nav-link">Stack</a>
+        <a href="../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="blog-hero">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          Home
+        </a>
+        <span class="eyebrow" style="margin-top:18px;">Writing</span>
+        <h1>Field notes &amp; deep-dives</h1>
+        <p>Notes from building distributed systems, cloud infrastructure, and production-grade GenAI agent architectures.</p>
+      </div>
+    </section>
+
+    <section style="padding: 12px 0 40px;">
+      <div class="read">
+        <div class="writing-list">
+          <a class="post" href="local-or-remote-scheduling-ai-agents/" data-tags="agents,routines,claude-code,mcp,automation,ai-infrastructure">
+            <div class="post-main">
+              <div class="post-meta">
+                <span class="post-tag">Agent Infrastructure</span>
+                <span>·</span>
+                <span>Jun 2026</span>
+              </div>
+              <h3>Local or Remote? A Decision Rule for Scheduling AI Agents</h3>
+              <p class="post-desc">The hard question about a scheduled agent isn't what it does — it's where it runs. The deciding axis is the secret, not the task — plus why an agent's instructions belong in version control.</p>
+            </div>
+            <div class="post-right">
+              <span>7 min</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
