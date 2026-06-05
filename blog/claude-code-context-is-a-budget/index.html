@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Context Window Is a Budget — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="How Claude Code's context window really works: the model is stateless, so every turn re-sends the entire conversation plus fixed overhead. A field note on reading the meter with /context and spending the budget with /compact, /clear, /rewind, subagents, and trimming MCP servers.">
+  <meta name="keywords" content="Claude Code context window, /context, /compact, /clear, /rewind, claude code token usage, context management, MCP tools context, auto-compact, stateless LLM context, prompt size">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/claude-code-context-is-a-budget/">
+  <meta property="og:title" content="Your Context Window Is a Budget">
+  <meta property="og:description" content="The model is stateless — every turn re-sends the whole conversation plus fixed overhead. Once you see context as a recurring budget, /context, /compact, /clear and /rewind stop being mysterious.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/claude-code-context-is-a-budget/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="claude-code,context,tokens,workflow,productivity,ai-infrastructure">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          All writing
+        </a>
+
+        <header class="article-head">
+          <span class="article-tag">Claude Code Workflow</span>
+          <h1>Your Context Window Is a Budget</h1>
+          <div class="article-meta">
+            <span>Jun 5, 2026</span>
+            <span class="sep">/</span>
+            <span>8 min read</span>
+            <span class="sep">/</span>
+            <span>Claude Code · Context · Tokens</span>
+          </div>
+          <p class="article-lede">
+            Most of the advice about "managing context" treats it as housekeeping — tidy up when things get messy. That framing misses what's actually happening. The context window is a budget you spend on every single turn, and a chunk of it is gone before you type a word. Once you see the budget, the commands that manage it stop being magic and start being obvious.
+          </p>
+          <div class="tags">
+            <a class="tag-chip" href="../?tag=claude-code">#claude-code</a>
+            <a class="tag-chip" href="../?tag=context">#context</a>
+            <a class="tag-chip" href="../?tag=tokens">#tokens</a>
+            <a class="tag-chip" href="../?tag=workflow">#workflow</a>
+            <a class="tag-chip" href="../?tag=productivity">#productivity</a>
+            <a class="tag-chip" href="../?tag=ai-infrastructure">#ai-infrastructure</a>
+          </div>
+        </header>
+
+        <div class="prose">
+          <h2>The part that surprises people</h2>
+          <p>
+            Here's the fact that reframes everything, and it catches a lot of people off guard: <strong>the model is stateless.</strong> It doesn't "remember" your conversation the way a person in a meeting does. Between one message and the next, it retains nothing.
+          </p>
+          <p>
+            So how does it follow a long thread? Because the entire conversation is <em>re-sent every time</em>. When you send your tenth message, what actually goes to the model is messages one through nine, every tool call and its output, every file it read, the system prompt, all the tool definitions — and then your tenth message tacked on the end. The model reads the whole pile from scratch, answers, and forgets it again. Your eleventh turn re-sends all of that <em>plus</em> the tenth exchange.
+          </p>
+          <div class="callout">
+            <p class="callout-label">The mental model</p>
+            <p>Every turn is a fresh exam where the model re-reads the entire packet before answering. The "conversation" is an illusion maintained by re-sending the transcript. That's why a long session feels slower and costs more as it grows — the packet it re-reads keeps getting thicker.</p>
+          </div>
+          <p>
+            The <strong>context window</strong> is the hard size limit on that packet. Everything has to fit: the fixed scaffolding, the whole history, and enough headroom left over for the model to actually think and reply. When people say a session "ran out of context," they mean the packet hit the ceiling. And critically — every token of fixed overhead isn't paid once. It's re-sent on <em>every turn</em>, for the life of the session.
+          </p>
+
+          <h2>Read the meter: <code>/context</code></h2>
+          <p>
+            You don't have to guess what's in the packet. <code>/context</code> itemizes it. Here's a real reading from a <em>fresh</em> session of mine — before I'd asked for anything:
+          </p>
+          <pre><code>## Context Usage
+Model: claude-opus-4-8
+Tokens: 13.1k / 1m (1%)
+
+| Category               | Tokens | Percentage |
+|------------------------|--------|------------|
+| System prompt          | 2.4k   | 0.2%       |
+| System tools           | 5.7k   | 0.6%       |
+| System tools (deferred)| 11.5k  | 1.1%       |
+| MCP tools (deferred)   | 1.5k   | 0.1%       |
+| Custom agents          | 348    | 0.0%       |
+| Skills                 | 2.4k   | 0.2%       |
+| Messages               | 2.2k   | 0.2%       |
+| Free space             | 986.9k | 98.7%      |</code></pre>
+          <p>
+            Read past the comfortable percentages — this window happens to be a large one, so the fractions look tiny. The line items are the point. Before a single instruction, I'm carrying a system prompt, a toolbox, custom agents, and a stack of skills. On a 200K-token model that same overhead is a much bigger slice, and remember the multiplier from above: it rides along on <em>every</em> turn. This is a recurring tax, not a one-time setup cost.
+          </p>
+          <p>
+            Two things in that readout are worth calling out, because they're levers most people never touch.
+          </p>
+
+          <h2>Cut the fixed costs first</h2>
+          <p>
+            Notice the <strong>(deferred)</strong> labels. Claude Code doesn't load every tool's full definition into the window up front; many are kept out and pulled in on demand. That's the system quietly protecting your budget — and it's a hint about where the budget goes when you're not careful.
+          </p>
+          <p>
+            The usual culprit is <strong>MCP servers</strong>. Every MCP tool you connect adds its schema to the toolbox, and as Claude Code itself puts it, those <em>"all count toward your limit."</em> Connect three chatty MCP servers and you can spend thousands of tokens per turn describing tools you aren't using in this session. The fix is unglamorous and effective: disable the servers you don't need for the task in front of you. Same logic for an overstuffed <code>CLAUDE.md</code> or a pile of always-on skills — every line is re-sent forever. Trim the fixed costs and you've widened the budget for <em>every</em> turn at once, which is a far bigger win than tidying up one long answer.
+          </p>
+
+          <h2><code>/compact</code> vs. letting it auto-compact</h2>
+          <p>
+            When the history itself gets heavy, <code>/compact</code> replaces the older turns with a summary — lossy, but it keeps the thread's state while reclaiming space. The summary stays; the verbose logs that produced it go.
+          </p>
+          <p>
+            If you don't do this yourself, Claude Code will eventually do it for you: <strong>auto-compact</strong> kicks in as you approach the limit. Useful as a safety net, but the tool is blunt about the tradeoff — it <em>"discards older messages,"</em> and its own hint is telling: <em>"Use /compact now to control what gets kept."</em> That's the difference. Auto-compact decides what to drop; manual <code>/compact</code> lets you steer it:
+          </p>
+          <pre><code>/compact keep the API schema decisions and the failing test; drop the file dumps</code></pre>
+          <p>
+            Reach for it at a natural seam — a sub-task just finished, a bug is fixed — so the summary captures a clean state rather than the middle of a thought. You can tune or disable the automatic behavior in <code>/config</code> if you'd rather always pull the trigger by hand.
+          </p>
+
+          <h2><code>/clear</code> vs. <code>/rewind</code></h2>
+          <p>
+            <code>/compact</code> compresses. The other two reset, and they're not the same reset.
+          </p>
+          <ul>
+            <li><strong><code>/clear</code></strong> wipes the conversation and starts fresh. When you finish one task and move to something unrelated, clear — there's no reason to keep re-sending the old thread, and a clean window is faster, cheaper, and free of stale assumptions bleeding into the new work.</li>
+            <li><strong><code>/rewind</code></strong> (or tapping <kbd>Esc</kbd> twice) is the surgical option: roll back to an earlier checkpoint — the conversation, the files it changed, or both. When a session takes a wrong turn and three messages of flailing have polluted the context, you don't have to nuke everything and re-explain. Rewind to just before it went sideways and continue from a clean point.</li>
+          </ul>
+          <div class="callout">
+            <p class="callout-label">Quick rule</p>
+            <p><strong>Done with this task → <code>/clear</code>.</strong> <strong>This task went wrong → <code>/rewind</code>.</strong> <strong>This task is long but healthy → <code>/compact</code>.</strong> Three different problems, three different tools.</p>
+          </div>
+
+          <h2>Spend the budget somewhere else entirely</h2>
+          <p>
+            The best context management is often not spending the budget in your main session at all. When a task needs a lot of <em>reading</em> — hunting through a sprawling codebase, scanning logs, comparing a dozen files — that exploration can dump tens of thousands of tokens into your window, and you only wanted the conclusion.
+          </p>
+          <p>
+            Hand it to a <strong>subagent</strong> instead. Claude Code spins up focused subagents for exactly this: the subagent burns <em>its own</em> context window doing the messy search, then reports back a short answer. The noise stays in the subagent; only the finding lands in your main thread. It's the cleanest way to investigate something big without paying for the whole investigation in the window you're trying to keep lean.
+          </p>
+          <p>
+            And to actually watch the meter over a session, <code>/cost</code> and <code>/usage</code> show what you're spending — the feedback loop that turns "context management" from a vague virtue into something you can see.
+          </p>
+
+          <hr>
+
+          <h2>The discipline</h2>
+          <p>
+            None of this is fiddly optimization. It falls straight out of one fact: the model re-reads the entire packet on every turn, and that packet has a ceiling.
+          </p>
+          <ul>
+            <li><strong>Run <code>/context</code> early</strong> to see your fixed costs — the tax you pay every turn.</li>
+            <li><strong>Cut overhead first:</strong> disable unused MCP servers, keep <code>CLAUDE.md</code> lean. It widens every turn at once.</li>
+            <li><strong>Offload heavy reading to subagents</strong> so exploration doesn't bloat your main window.</li>
+            <li><strong><code>/compact</code> at clean seams</strong> on long tasks; steer what survives instead of letting auto-compact guess.</li>
+            <li><strong><code>/clear</code> between tasks, <code>/rewind</code> when one derails.</strong></li>
+          </ul>
+          <p>
+            Treat the window as a budget you re-spend every turn, not a drawer you tidy when it overflows, and the model stays fast, sharp, and cheap for far longer.
+          </p>
+        </div>
+
+        <div class="article-foot">
+          <span class="sig">Written by <b>Pavel Kerbel</b> — Principal Software Engineer &amp; Distributed Systems Architect.</span>
+          <a class="backlink" href="../">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            More writing
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
