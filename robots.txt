@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pavelkerbel.com/sitemap.xml
