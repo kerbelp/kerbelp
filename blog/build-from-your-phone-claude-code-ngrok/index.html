@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building From My Phone: Claude Code, caffeinate, and an ngrok Tunnel — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="A field note on driving Claude Code from your phone: why /remote-control runs on your local machine (not the cloud), how to keep the Mac awake with caffeinate, and how an ngrok tunnel gives you a live UI preview of a localhost dev server on your phone.">
+  <meta name="keywords" content="Claude Code remote control, build from phone, ngrok Claude Code, caffeinate, live mobile preview, localhost tunnel, Claude Code mobile, remote control vs cloud, ngrok dev server, Claude Code workflow">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/build-from-your-phone-claude-code-ngrok/">
+  <meta property="og:title" content="Building From My Phone: Claude Code, caffeinate, and an ngrok Tunnel">
+  <meta property="og:description" content="Remote control drives your local machine — not the cloud. That one fact is what makes a phone-based build-and-preview loop possible, and dictates the two tools that make it work.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/build-from-your-phone-claude-code-ngrok/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="claude-code,remote-control,ngrok,mobile,workflow,ai-infrastructure">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          All writing
+        </a>
+
+        <header class="article-head">
+          <span class="article-tag">Claude Code Workflow</span>
+          <h1>Building From My Phone: Claude Code, <code>caffeinate</code>, and an ngrok Tunnel</h1>
+          <div class="article-meta">
+            <span>Jun 5, 2026</span>
+            <span class="sep">/</span>
+            <span>8 min read</span>
+            <span class="sep">/</span>
+            <span>Claude Code · Remote · ngrok</span>
+          </div>
+          <p class="article-lede">
+            I can start a UI change on my laptop, walk out the door, and watch the result render on my phone — tweaking it from a coffee shop while the work happens back home. It sounds like it must involve the cloud. It doesn't, and that's the whole trick: getting one fact right about where the work runs is what makes the rest of the setup fall into place.
+          </p>
+          <div class="tags">
+            <a class="tag-chip" href="../?tag=claude-code">#claude-code</a>
+            <a class="tag-chip" href="../?tag=remote-control">#remote-control</a>
+            <a class="tag-chip" href="../?tag=ngrok">#ngrok</a>
+            <a class="tag-chip" href="../?tag=mobile">#mobile</a>
+            <a class="tag-chip" href="../?tag=workflow">#workflow</a>
+            <a class="tag-chip" href="../?tag=ai-infrastructure">#ai-infrastructure</a>
+          </div>
+        </header>
+
+        <div class="prose">
+          <h2>The fact everyone gets backwards</h2>
+          <p>
+            When you turn on <code>/remote-control</code> and start sending messages from your phone, the natural assumption is that "remote" means the cloud — that your task has been shipped off to a server somewhere and is running there. So people brace for the usual cloud tradeoffs: my local tools won't be there, my environment won't be there, my files won't be there.
+          </p>
+          <p>
+            That assumption is exactly backwards. Remote Control does the opposite of what the name suggests. In Claude Code's own words, it <em>"allows you to control sessions on your local device from"</em> elsewhere, running <em>"as a persistent server"</em> on your machine. The session lives on your laptop. Your phone is a remote — it sends the keystrokes, but your Mac is the thing doing the work, with full access to your real filesystem, your installed CLIs, your skills, your environment. Nothing was shipped anywhere.
+          </p>
+          <div class="callout">
+            <p class="callout-label">Don't confuse it with cloud agents</p>
+            <p>This is a different feature from a <em>cloud routine</em>, which really does run in an off-machine sandbox and really does lose your local environment — I wrote about when to reach for that in <a href="../local-or-remote-scheduling-ai-agents/">Local or Remote</a>. Remote Control is the inverse: same local session, just steered from your pocket.</p>
+          </div>
+          <p>
+            Once that clicks, the entire mobile workflow reorganizes around it. If the work runs on my Mac, then two very physical problems appear — and both have clean fixes.
+          </p>
+
+          <h2>Problem 1: a sleeping Mac kills the session</h2>
+          <p>
+            The session is a process on a laptop. Laptops sleep. Close the lid or let it idle and the process freezes mid-task — the worst possible moment, because you're not there to notice. The fix is a one-word macOS built-in: <code>caffeinate</code>, which holds a power-management assertion so the machine stays awake.
+          </p>
+          <p>
+            The flags map to the kinds of sleep you're blocking:
+          </p>
+          <pre><code>caffeinate [-i] [-d] [-m] [-s] [-t timeout] [-w pid] [command...]
+  -i  prevent idle sleep      -d  prevent display sleep
+  -m  prevent disk sleep      -s  prevent system sleep (on AC power)
+  -t  hold for N seconds      -w  hold until a given PID exits</code></pre>
+          <p>
+            The clean pattern is to <em>wrap the session</em>, so the assertion lives exactly as long as the work does and releases the moment it ends:
+          </p>
+          <pre><code>caffeinate -i -s claude     # no idle/system sleep until this session exits</code></pre>
+          <p>
+            No daemon to remember to turn off, no setting left flipped — when <code>claude</code> exits, the Mac is free to sleep again.
+          </p>
+
+          <h2>Problem 2: your dev server is invisible to your phone</h2>
+          <p>
+            Now the interesting one. You ask Claude to build a UI change and spin up the dev server. It does — on <code>http://localhost:5173</code>, on your Mac. That URL means nothing on your phone; <code>localhost</code> is the laptop, and your phone is on a different network entirely. The preview you want to see is running on a machine you're not sitting at.
+          </p>
+          <p>
+            This is what a tunnel is for. <strong>ngrok</strong> opens a public HTTPS endpoint and forwards it to a port on your machine, so a request from anywhere on the internet lands on your local dev server. I ask Claude to start it right alongside the server:
+          </p>
+          <pre><code>$ ngrok http 5173
+
+Session Status   online
+Forwarding       https://tallowy-pachydermous-breana.ngrok-free.dev -> http://localhost:5173</code></pre>
+          <p>
+            That forwarding line is real — I ran exactly this against a throwaway page while writing this, and a request to the public URL came back <code>200</code>, serving the page off my laptop. Claude pastes that URL into the session, I open it on my phone, and I'm looking at the live app. Every change Claude makes that the dev server hot-reloads shows up on my screen seconds later. I can sit on a train and say "tighten that spacing, the CTA's too low" and watch it move.
+          </p>
+          <div class="callout">
+            <p class="callout-label">Why this only works because of fact #1</p>
+            <p>The tunnel is necessary <em>precisely because the server is local</em>. If Remote Control really were cloud execution, there'd be nothing on your Mac to tunnel to. The ngrok step isn't a workaround for the cloud — it's the bridge to a server that never left your desk.</p>
+          </div>
+
+          <h2>Review intent, not just pixels</h2>
+          <p>
+            A phone is a great window for <em>seeing</em> a result and a terrible one for reviewing a large diff. So I shift what I review. Before Claude writes much code, I have it put the plan — the component breakdown, the decisions, the file list — into a Markdown file and show me that first. Approving a short, structured plan on a small screen is easy; scrolling a 600-line diff on a phone is not.
+          </p>
+          <p>
+            It also gives me a clean handoff. The genuinely heavy steps — a big migration, a full test run, anything I'd rather watch on a real terminal — can wait. The plan is committed, the intent is reviewed, and I run those parts when I'm back at the desk. The phone is for steering and previewing; the terminal is still there for the work that wants a keyboard.
+          </p>
+
+          <h2>The part you can't be casual about</h2>
+          <p>
+            A tunnel is a hole in your machine, punched out to the open internet. Treat it like one.
+          </p>
+          <ul>
+            <li><strong>Only ever tunnel a dev server,</strong> never anything sitting on real data or secrets. The public URL is reachable by anyone who has it.</li>
+            <li><strong>Put auth on it</strong> if it's up for more than a moment — ngrok can add basic auth or OAuth in front of the tunnel. A guessable URL is not privacy.</li>
+            <li><strong>Close it when you're done.</strong> The tunnel should live as long as the session, not as a thing you forget is running. (ngrok's free tier also shows a browser interstitial on first visit, a small friction that's easy to mistake for a broken link.)</li>
+          </ul>
+
+          <hr>
+
+          <h2>The loop</h2>
+          <p>
+            Put together, building untethered comes down to four moves, each one a direct consequence of the work living on your own machine:
+          </p>
+          <ul>
+            <li><strong>Keep the Mac awake</strong> for the whole session: <code>caffeinate -i -s claude</code>.</li>
+            <li><strong>Turn on <code>/remote-control</code></strong> and drive the local session from your phone.</li>
+            <li><strong>Have Claude tunnel the dev server</strong> with <code>ngrok http &lt;port&gt;</code> and paste you the URL for a live preview.</li>
+            <li><strong>Review the plan, not the diff,</strong> on the small screen — and leave the heavy steps for the terminal.</li>
+          </ul>
+          <p>
+            None of it is cloud magic. It's a local session you can reach, a machine you've told to stay awake, and a bridge to a server that never left home. The surprise isn't how exotic the setup is — it's how ordinary the pieces are once you stop assuming "remote" means "somewhere else."
+          </p>
+        </div>
+
+        <div class="article-foot">
+          <span class="sig">Written by <b>Pavel Kerbel</b> — Principal Software Engineer &amp; Distributed Systems Architect.</span>
+          <a class="backlink" href="../">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            More writing
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
