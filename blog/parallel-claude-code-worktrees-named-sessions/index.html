@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallel Claude Code: Worktrees and Named Sessions Without the Chaos — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Running several Claude Code agents against one repo breaks on shared state — a single working tree and one checked-out branch. A field note on using git worktrees (claude -w) and named, resumable sessions (-n, --resume) to run parallel work without clobbering.">
+  <meta name="keywords" content="parallel Claude Code, Claude Code worktree, claude -w, Claude Code named session, claude --resume, claude --continue, git worktree agent, Claude Code workflow, multiple Claude Code sessions, custom title">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/parallel-claude-code-worktrees-named-sessions/">
+  <meta property="og:title" content="Parallel Claude Code: Worktrees and Named Sessions Without the Chaos">
+  <meta property="og:description" content="The thing that breaks when you run several agents on one repo isn't the model — it's shared state. Give every task its own worktree and its own name.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/parallel-claude-code-worktrees-named-sessions/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="claude-code,git-worktrees,sessions,workflow,productivity,ai-infrastructure">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          All writing
+        </a>
+
+        <header class="article-head">
+          <span class="article-tag">Claude Code Workflow</span>
+          <h1>Parallel Claude Code: Worktrees and Named Sessions Without the Chaos</h1>
+          <div class="article-meta">
+            <span>Jun 5, 2026</span>
+            <span class="sep">/</span>
+            <span>7 min read</span>
+            <span class="sep">/</span>
+            <span>Claude Code · Git · Sessions</span>
+          </div>
+          <p class="article-lede">
+            Once an agent is fast enough to be worth running, you want to run more than one — a refactor in this tab, a copy fix in that one, a spike in a third. Then they start stepping on each other, and it feels like the agents are the problem. They aren't. The problem is that they're all reaching into the same drawer.
+          </p>
+          <div class="tags">
+            <a class="tag-chip" href="../?tag=claude-code">#claude-code</a>
+            <a class="tag-chip" href="../?tag=git-worktrees">#git-worktrees</a>
+            <a class="tag-chip" href="../?tag=sessions">#sessions</a>
+            <a class="tag-chip" href="../?tag=workflow">#workflow</a>
+            <a class="tag-chip" href="../?tag=productivity">#productivity</a>
+            <a class="tag-chip" href="../?tag=ai-infrastructure">#ai-infrastructure</a>
+          </div>
+        </header>
+
+        <div class="prose">
+          <p>
+            Here's the setup that got me into trouble. I had two Claude Code sessions open against the same repo. One was halfway through a pricing tweak — uncommitted edits sitting in the working tree. The other needed to do something unrelated on a feature branch. Both perfectly reasonable tasks. Both pointed at the same checkout.
+          </p>
+          <p>
+            A git repository has exactly one working tree and one checked-out <code>HEAD</code>. Two agents writing into it is two writers sharing one mutable surface, and that has a name: a race. No prompt fixes it, because it isn't a reasoning failure — it's a structural collision.
+          </p>
+
+          <h2>Watch it happen</h2>
+          <p>
+            Let me make it concrete instead of hand-waving. Agent A is mid-task: a discount it's testing, not yet committed.
+          </p>
+          <pre><code>$ # Agent A: uncommitted edit on main
+$ git status --short
+ M pricing.js</code></pre>
+          <p>
+            Agent B, in the other tab, just wants to switch to its own branch to get started:
+          </p>
+          <pre><code>$ # Agent B, same checkout:
+$ git switch promo-banner
+error: Your local changes to the following files would be overwritten by checkout:
+	pricing.js
+Please commit your changes or stash them before you switch branches.
+Aborting</code></pre>
+          <p>
+            Best case, B is simply blocked — git refuses, because moving branches would overwrite A's work. But an agent that wants to make progress doesn't stop at "blocked." It does the obvious thing to get unstuck:
+          </p>
+          <pre><code>$ git stash          # B clears the way so it can switch
+$ git switch promo-banner
+$ cat pricing.js
+export const price = 100;
+export const banner = "Sale!";</code></pre>
+          <p>
+            And there it is. A's in-progress discount — the <code>price = 80</code> edit it was actively reasoning about — has silently evaporated from the working tree. It isn't lost forever (it's in a stash entry nobody's tracking), but as far as Agent A's next step is concerned, the file just changed under it for no reason it can see. The session is now operating on a lie.
+          </p>
+          <div class="callout">
+            <p class="callout-label">The real failure</p>
+            <p>It's tempting to read this as "the agent shouldn't have stashed." But any sequence that unblocks a branch switch — stash, commit, <code>checkout -f</code> — mutates state another session is depending on. The bug isn't the command. It's that two tasks share one working tree at all.</p>
+          </div>
+
+          <h2>One working tree per task</h2>
+          <p>
+            The fix isn't discipline, it's topology. Git already has the right primitive: a <strong>worktree</strong> is a second working directory backed by the same <code>.git</code> repository, with its own checked-out branch. Two worktrees, two branches, zero shared mutable surface.
+          </p>
+          <p>
+            Same starting point — A is mid-edit on <code>main</code>. This time B gets its own checkout instead of switching in place:
+          </p>
+          <pre><code>$ git worktree add ../app-promo promo-banner
+
+$ git worktree list
+/private/tmp/app        09b8722 [main]          # A, still mid-edit
+/private/tmp/app-promo  f92af58 [promo-banner]  # B, its own dir + branch
+
+$ # A's working tree, completely untouched:
+$ git -C /private/tmp/app status --short
+ M pricing.js
+$ sed -n 1p /private/tmp/app/pricing.js
+export const price = 80; // A is testing a discount</code></pre>
+          <p>
+            A's discount is right where it left it. B is off in its own directory on its own branch. Neither can clobber the other because there's nothing in common to clobber.
+          </p>
+          <p>
+            Claude Code builds this directly into how you launch a session. Instead of starting in your main checkout, you start the session <em>in</em> a worktree:
+          </p>
+          <pre><code>claude -w promo-banner              # start this session in a fresh worktree
+claude -w promo-banner --tmux       # …and give it its own tmux / iTerm session</code></pre>
+          <p>
+            <code>-w</code>/<code>--worktree</code> creates the worktree and runs the session there; <code>--tmux</code> spins it into its own terminal session so you can literally see your tasks side by side. There's a subtlety in how the worktree gets its gitignored files (like <code>.env</code>) — I went down that rabbit hole in <a href="../claude-code-deny-rules-not-a-sandbox/">a separate post on the <code>WorktreeCreate</code> hook</a> — but the headline is simple: each task gets a clean room.
+          </p>
+
+          <h2>Tell the agent the rule out loud</h2>
+          <p>
+            The topology only holds if the agent respects it. Left to its own judgment, an agent in a pinch will still reach for <code>git switch</code> or <code>git stash</code> — the very moves that caused the collision. So I make the rule explicit in <code>CLAUDE.md</code>, where it's loaded into every session as a standing instruction:
+          </p>
+          <pre><code># Branch isolation
+Never change branches in this working tree with `git checkout` or
+`git switch`, and never run `git stash`. If a task needs a different
+branch, create a git worktree for it and work there instead.</code></pre>
+          <p>
+            It reads like a small thing. It's the difference between an agent that quietly rearranges your working tree to unblock itself and one that stays in its lane.
+          </p>
+
+          <h2>Naming: so you can find your way back</h2>
+          <p>
+            Isolation solves collisions. It creates a second problem: now you have three, five, eight sessions, and they all look alike. By default Claude Code auto-generates a name for each one, so <code>--resume</code> hands you a list of machine-written summaries and dares you to remember which was the auth refactor.
+          </p>
+          <p>
+            The cure is to name the session when you start it:
+          </p>
+          <pre><code>claude -n "refactor-auth"
+claude -w promo-banner -n "promo-banner-copy"   # name + worktree together</code></pre>
+          <p>
+            That name isn't cosmetic. It's written straight into the session log as the very first record — I went and looked:
+          </p>
+          <pre><code>$ head -1 ~/.claude/projects/&lt;project&gt;/&lt;id&gt;.jsonl
+{"type":"custom-title","customTitle":"refactor-auth","sessionId":"9a8b0d2b-…"}</code></pre>
+          <p>
+            Because the title is persisted, it's there waiting when you come back. If you forgot to name a session at launch, <code>/rename</code> sets the same <code>custom-title</code> mid-flight. Then picking the work back up is two flags:
+          </p>
+          <ul>
+            <li><strong><code>claude --continue</code></strong> (<code>-c</code>) — jump straight back into the most recent session in this directory. The "I just stepped away for coffee" path.</li>
+            <li><strong><code>claude --resume</code></strong> (<code>-r</code>) — choose from this project's past sessions by name. The "which one was the auth work" path — and the reason naming pays for itself the moment you have more than two.</li>
+          </ul>
+
+          <hr>
+
+          <h2>The whole loop</h2>
+          <p>
+            Put together, running parallel agents stops being chaotic and becomes boring, in the good way:
+          </p>
+          <ul>
+            <li><strong>Start each task isolated and named:</strong> <code>claude -w &lt;branch&gt; -n "&lt;what-it-is&gt;"</code>. Its own worktree, its own label.</li>
+            <li><strong>Forbid in-place branch moves</strong> in <code>CLAUDE.md</code> so nothing reaches into a shared tree.</li>
+            <li><strong>Walk away.</strong> Three tasks can run at once without ever touching each other's files.</li>
+            <li><strong>Come back with <code>--resume</code></strong> and pick the one you want by name.</li>
+          </ul>
+          <p>
+            The instinct, when parallel agents trip over each other, is to slow down and run one at a time. You don't have to. Give each task its own working tree and its own name, and the collisions you were managing by hand simply stop existing.
+          </p>
+        </div>
+
+        <div class="article-foot">
+          <span class="sig">Written by <b>Pavel Kerbel</b> — Principal Software Engineer &amp; Distributed Systems Architect.</span>
+          <a class="backlink" href="../">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            More writing
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
