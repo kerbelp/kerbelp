@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The .env That Vanished: What Claude Code's deny Rules Actually Protect — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="A debugging field note on Claude Code: why a Read(.env) deny rule does not break a WorktreeCreate hook, what the deny array actually gates, and the one-line mkdir bug that was really eating my .env in git worktrees.">
+  <meta name="keywords" content="Claude Code deny rules, Claude Code sandbox, Claude Code permissions, WorktreeCreate hook, Claude Code worktree .env, git worktrees, Claude Code hooks, settings.json deny, ENOENT vs EPERM, Claude Code security">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/claude-code-deny-rules-not-a-sandbox/">
+  <meta property="og:title" content="The .env That Vanished: What Claude Code's deny Rules Actually Protect">
+  <meta property="og:description" content="I was sure my own security config was eating my .env in worktrees. I instrumented the hook instead of guessing — and the deny rule turned out to be a red herring.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/claude-code-deny-rules-not-a-sandbox/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="claude-code,hooks,git-worktrees,debugging,permissions,ai-infrastructure">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          All writing
+        </a>
+
+        <header class="article-head">
+          <span class="article-tag">Claude Code Internals</span>
+          <h1>The .env That Vanished: What Claude Code's <code>deny</code> Rules Actually Protect</h1>
+          <div class="article-meta">
+            <span>Jun 5, 2026</span>
+            <span class="sep">/</span>
+            <span>9 min read</span>
+            <span class="sep">/</span>
+            <span>Claude Code · Hooks · Worktrees</span>
+          </div>
+          <p class="article-lede">
+            I had what looked like a tidy, secure setup: secrets denied to the model, and a hook that quietly copied my <code>.env</code> into every new worktree. Then the <code>.env</code> stopped showing up. I was <em>certain</em> I knew why — confident enough to write the explanation down and tell other people. I was wrong, and the way I found out is the whole point of this post.
+          </p>
+          <div class="tags">
+            <a class="tag-chip" href="../?tag=claude-code">#claude-code</a>
+            <a class="tag-chip" href="../?tag=hooks">#hooks</a>
+            <a class="tag-chip" href="../?tag=git-worktrees">#git-worktrees</a>
+            <a class="tag-chip" href="../?tag=debugging">#debugging</a>
+            <a class="tag-chip" href="../?tag=permissions">#permissions</a>
+            <a class="tag-chip" href="../?tag=ai-infrastructure">#ai-infrastructure</a>
+          </div>
+        </header>
+
+        <div class="prose">
+          <p>
+            My setup looked like good hygiene. I run Claude Code against real codebases, and I don't want an agent reading my secrets, so my <code>settings.json</code> denies them outright:
+          </p>
+          <pre><code>"permissions": {
+  "deny": ["Read(./.env)", "Read(./.env.*)", "Read(./secrets/**)"]
+}</code></pre>
+          <p>
+            I also lean hard on <strong>git worktrees</strong>. When I want the agent to take on a task in isolation, I spin up a worktree with <code>claude -w</code> so it gets its own checkout and never touches my working tree. The one snag: a worktree is a fresh checkout, so it doesn't have my gitignored <code>.env</code>. To fix that I wrote a small <strong>WorktreeCreate</strong> hook — a script Claude runs whenever it creates a worktree — that copies the <code>.env</code> across:
+          </p>
+          <pre><code>if [ -f "$project_dir/.env" ]; then
+  cp "$project_dir/.env" "$worktree_path/.env" 2>/dev/null || true
+fi
+echo "$worktree_path"</code></pre>
+          <p>
+            Clean, in theory. The hook runs at the OS level, so it copies the file and the new worktree comes up ready to run. Except it didn't. The worktrees kept coming up <em>without</em> a <code>.env</code>, and my dev server inside them died on a missing key.
+          </p>
+
+          <h2>The theory I was sure about</h2>
+          <p>
+            I had an explanation immediately, and it felt airtight. <em>I denied <code>Read(./.env)</code>. My hook needs to read <code>.env</code> to copy it. So my own deny rule is blocking my own hook.</em> The two facts sat right next to each other; the causal arrow between them was obvious.
+          </p>
+          <p>
+            It was obvious enough that I treated it as known. I wrote it up as a tip — the kind of thing you post with confidence: <em>"Heads up: adding your <code>.env</code> to Claude Code's deny array silently breaks its worktree file-copying, because the engine that does the copy is also banned from reading the file. Use an OS-level hook to route around the sandbox."</em> It reads like a real finding. It has a mechanism. It has a fix. It was also completely wrong, and the only reason I know that is that I eventually stopped theorizing and watched what actually happened.
+          </p>
+          <div class="callout">
+            <p class="callout-label">The tell I ignored</p>
+            <p>A clean story that explains a bug is not evidence that the story is true. "Deny blocks read, hook needs read, therefore deny breaks hook" is a syllogism, not an observation. I had three facts and a plausible line connecting them — and I never checked whether the line was real.</p>
+          </div>
+
+          <h2>Instrument, don't guess</h2>
+          <p>
+            The thing that finally broke the deadlock was deciding the <em>kind</em> of failure would tell me everything. If the deny rule was really the cause, the copy would fail with a <strong>permission error</strong> — <code>EPERM</code>, "operation not permitted." If it was something dumber, it would fail some other way. So I replaced my hook with an instrumented copy that logged exactly what it saw and, crucially, the exact error from the <code>cp</code>:
+          </p>
+          <pre><code># can THIS process even read the file?
+cat "$project_dir/.env" &gt;/dev/null \
+  &amp;&amp; echo "cat .env: OK (readable)" \
+  || echo "cat .env: FAILED rc=$?"
+
+# does the destination exist yet?
+echo "target dir exists: $( [ -d "$worktree_path" ] &amp;&amp; echo YES || echo NO )"
+
+# do the copy and keep the real error
+cp "$project_dir/.env" "$worktree_path/.env"   # no 2&gt;/dev/null this time</code></pre>
+          <p>
+            Then I created a worktree with the deny rule fully in place, and read the trace. Here is what it printed, trimmed to the parts that matter:
+          </p>
+          <pre><code>CLAUDE_PROJECT_DIR=/private/tmp/wt-test
+whoami=pavel  uid=501                  # runs as me, not a locked-down user
+--- source .env checks ---
+test -f project/.env: YES
+cat .env: OK (readable)                # ← the hook reads .env just fine
+--- target dir checks (before) ---
+test -d worktree_path: NO              # ← the worktree dir isn't there yet
+--- cp attempt ---
+cp: /private/tmp/wt-test/.worktrees/wtA/.env: No such file or directory
+cp FAILED rc=1                         # ← ENOENT, not EPERM</code></pre>
+          <p>
+            Two lines demolished my theory in one read.
+          </p>
+          <ul>
+            <li><strong><code>cat .env: OK</code></strong> — the hook read the very file my deny rule supposedly forbade, no problem, running as my own user. The deny rule wasn't stopping anything here.</li>
+            <li><strong><code>No such file or directory</code></strong> — the copy failed with <code>ENOENT</code>, not a permission error. The destination <em>directory</em> didn't exist. The secret had nothing to do with it.</li>
+          </ul>
+          <p>
+            My confident mechanism was fiction. The deny rule was a bystander I'd convicted on circumstantial evidence.
+          </p>
+
+          <h2>What <code>deny</code> actually gates</h2>
+          <p>
+            Here is the mental model I'd gotten wrong, and the one that's actually correct.
+          </p>
+          <p>
+            Claude Code's <code>deny</code> array is an <strong>in-process gate on the model's own tool calls</strong>. When the LLM decides to use the <code>Read</code> tool on <code>./.env</code>, Claude checks that request against your permission rules <em>before</em> it executes, and refuses. The rule lives entirely inside the agent's tool-dispatch logic. It governs <em>what the model is allowed to ask for.</em>
+          </p>
+          <p>
+            A hook is not the model asking for anything. It's a shell script Claude spawns as an ordinary OS process — running as me, <code>uid 501</code>, with my full filesystem access. The kernel copying a file has no idea that, one layer up, an LLM is forbidden from reading it. The two things live on completely different planes.
+          </p>
+          <div class="callout">
+            <p class="callout-label">The correction</p>
+            <p><strong><code>deny</code> is not an OS sandbox.</strong> It restricts the <em>agent's</em> tools, not the processes those tools (or your hooks) shell out to. A <code>Read(./.env)</code> deny rule stops the model from reading your secret. It does nothing to a <code>cp</code>, a <code>cat</code>, a <code>node</code>, or any other subprocess — those inherit your real permissions.</p>
+          </div>
+          <p>
+            That distinction matters well beyond my hook. If your threat model is "I don't want the LLM slurping my secrets into its context," deny rules are exactly the right tool. But if you ever catch yourself reaching for deny rules to achieve <em>real</em> isolation — to stop code from touching a file at the OS level — you're at the wrong layer. The agent's permission system and the operating system's permission system are not the same fence, and only one of them is load-bearing against a process that already runs as you.
+          </p>
+
+          <h2>So what actually ate the <code>.env</code>?</h2>
+          <p>
+            Once I knew it was <code>ENOENT</code>, the real bug was almost embarrassing. When you configure a <strong>WorktreeCreate</strong> hook, Claude hands worktree creation <em>to your hook</em> and uses whatever path the hook prints on stdout. The hook owns making the directory. Mine never did. It computed <code>$worktree_path</code>, immediately tried to <code>cp</code> a file <em>into</em> that directory — which didn't exist yet — and the copy failed.
+          </p>
+          <p>
+            And then the part that kept me in the dark for so long: my own defensive reflex.
+          </p>
+          <pre><code>cp "$project_dir/.env" "$worktree_path/.env" 2>/dev/null || true</code></pre>
+          <p>
+            I'd muted the copy's stderr and OR-ed the failure away, on the theory that "a missing <code>.env</code> shouldn't break worktree creation." Reasonable instinct, terrible outcome: it took the one error that would have told me the truth on day one — <em>no such file or directory</em> — and threw it in the bin. The hook reported success and produced nothing. I'd built a machine for hiding the evidence from myself.
+          </p>
+          <p>
+            The fix is one line plus letting errors speak:
+          </p>
+          <pre><code>if [ -f "$project_dir/.env" ]; then
+  mkdir -p "$worktree_path"                       # create it first
+  cp "$project_dir/.env" "$worktree_path/.env" >&2 \
+    || echo "worktree-setup: failed to copy .env into $worktree_path" >&2
+fi
+echo "$worktree_path"   # stdout stays reserved for the path Claude reads</code></pre>
+          <p>
+            With that in place I recreated the worktree — deny rule still active — and the <code>.env</code> was sitting there. The fix had nothing to do with permissions, sandboxes, or routing around the agent. It was <code>mkdir -p</code>.
+          </p>
+
+          <table class="rule-table">
+            <thead>
+              <tr><th>What I believed</th><th>What was true</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>The deny rule blocked my hook from reading <code>.env</code></td>
+                <td class="accent-cell">The hook read <code>.env</code> fine; deny only gates the model's tools</td>
+              </tr>
+              <tr>
+                <td>Failure was a permission error (<code>EPERM</code>)</td>
+                <td class="accent-cell">Failure was a missing directory (<code>ENOENT</code>)</td>
+              </tr>
+              <tr>
+                <td>The fix was an OS-level workaround for the sandbox</td>
+                <td class="accent-cell">The fix was <code>mkdir -p</code> before the copy</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <hr>
+
+          <h2>What I'm taking from it</h2>
+          <p>
+            I left the wrong tip up. I'm not interested in pretending I had it right the whole time — being wrong in public and then showing the correction is more useful to other people than a stream of clean, confident takes that quietly skip the part where the author was fooled.
+          </p>
+          <p>
+            The durable lessons, the ones I actually changed my behavior over:
+          </p>
+          <ul>
+            <li><strong>A plausible mechanism is not a verified one.</strong> "Deny blocks read, hook needs read, therefore…" is a story. Stories that explain the symptom are the easiest thing in the world to invent and the hardest to doubt.</li>
+            <li><strong>The <em>kind</em> of failure is the cheapest, highest-signal clue you have.</strong> <code>EPERM</code> and <code>ENOENT</code> point at completely different worlds. One trace that preserved the errno collapsed a week of theorizing into thirty seconds.</li>
+            <li><strong>Stop swallowing errors you haven't read yet.</strong> <code>2>/dev/null || true</code> is how a bug hides in plain sight. "Best effort" should still tell you when the effort failed.</li>
+            <li><strong>Know which fence is load-bearing.</strong> An agent's permission rules and the OS's permission rules are different layers. Don't reach for one expecting the guarantees of the other.</li>
+          </ul>
+          <p>
+            The agent never touched my secret. The operating system was doing exactly what I told it. The only thing standing between me and a working worktree was a directory I forgot to create — and a habit of looking away from the one message that would have said so.
+          </p>
+        </div>
+
+        <div class="article-foot">
+          <span class="sig">Written by <b>Pavel Kerbel</b> — Principal Software Engineer &amp; Distributed Systems Architect.</span>
+          <a class="backlink" href="../">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            More writing
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
