@@ -2,6 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZ51RTLZ8E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NZ51RTLZ8E');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Writing — Pavel Kerbel</title>
 
@@ -22,6 +31,8 @@
   <meta name="author" content="Pavel Kerbel">
 
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@kerbelp">
+  <meta name="twitter:creator" content="@kerbelp">
   <meta name="twitter:title" content="Writing — Pavel Kerbel">
   <meta name="twitter:description" content="Essays on Claude Code, agent infrastructure, and distributed systems.">
   <meta name="twitter:image" content="https://pavelkerbel.com/assets/og/blog.png">
@@ -41,11 +52,11 @@
   "inLanguage": "en-US",
   "author": { "@type": "Person", "name": "Pavel Kerbel", "url": "https://pavelkerbel.com/" },
   "blogPost": [
-    { "@type": "BlogPosting", "headline": "Building From My Phone: Claude Code, caffeinate, and an ngrok Tunnel", "url": "https://pavelkerbel.com/blog/build-from-your-phone-claude-code-ngrok/", "datePublished": "2026-06-05T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
-    { "@type": "BlogPosting", "headline": "Your Context Window Is a Budget", "url": "https://pavelkerbel.com/blog/claude-code-context-is-a-budget/", "datePublished": "2026-06-05T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
-    { "@type": "BlogPosting", "headline": "Parallel Claude Code: Worktrees and Named Sessions Without the Chaos", "url": "https://pavelkerbel.com/blog/parallel-claude-code-worktrees-named-sessions/", "datePublished": "2026-06-05T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
-    { "@type": "BlogPosting", "headline": "The .env That Vanished: What Claude Code's deny Rules Actually Protect", "url": "https://pavelkerbel.com/blog/claude-code-deny-rules-not-a-sandbox/", "datePublished": "2026-06-05T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
-    { "@type": "BlogPosting", "headline": "Local or Remote? A Decision Rule for Scheduling AI Agents", "url": "https://pavelkerbel.com/blog/local-or-remote-scheduling-ai-agents/", "datePublished": "2026-06-05T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } }
+    { "@type": "BlogPosting", "headline": "Building From My Phone: Claude Code, caffeinate, and an ngrok Tunnel", "url": "https://pavelkerbel.com/blog/build-from-your-phone-claude-code-ngrok/", "datePublished": "2026-06-02T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
+    { "@type": "BlogPosting", "headline": "Your Context Window Is a Budget", "url": "https://pavelkerbel.com/blog/claude-code-context-is-a-budget/", "datePublished": "2026-05-26T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
+    { "@type": "BlogPosting", "headline": "Parallel Claude Code: Worktrees and Named Sessions Without the Chaos", "url": "https://pavelkerbel.com/blog/parallel-claude-code-worktrees-named-sessions/", "datePublished": "2026-05-19T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
+    { "@type": "BlogPosting", "headline": "The .env That Vanished: What Claude Code's deny Rules Actually Protect", "url": "https://pavelkerbel.com/blog/claude-code-deny-rules-not-a-sandbox/", "datePublished": "2026-05-12T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } },
+    { "@type": "BlogPosting", "headline": "Local or Remote? A Decision Rule for Scheduling AI Agents", "url": "https://pavelkerbel.com/blog/local-or-remote-scheduling-ai-agents/", "datePublished": "2026-05-05T09:00:00+00:00", "author": { "@type": "Person", "name": "Pavel Kerbel" } }
   ]
 }
   </script>
@@ -123,7 +134,7 @@
               <div class="post-meta">
                 <span class="post-tag">Claude Code Workflow</span>
                 <span>·</span>
-                <span>Jun 2026</span>
+                <span>May 2026</span>
               </div>
               <h3>Your Context Window Is a Budget</h3>
               <p class="post-desc">The model is stateless, so every turn re-sends the whole conversation plus fixed overhead — a real shock to most people. Once you see context as a recurring budget, /context, /compact, /clear and /rewind stop being magic.</p>
@@ -138,7 +149,7 @@
               <div class="post-meta">
                 <span class="post-tag">Claude Code Workflow</span>
                 <span>·</span>
-                <span>Jun 2026</span>
+                <span>May 2026</span>
               </div>
               <h3>Parallel Claude Code: Worktrees and Named Sessions Without the Chaos</h3>
               <p class="post-desc">Running several agents against one repo breaks on shared state — one working tree, one branch. Here's the collision (with real git output), and the fix: a worktree per task and a name you can resume by.</p>
@@ -153,7 +164,7 @@
               <div class="post-meta">
                 <span class="post-tag">Claude Code Internals</span>
                 <span>·</span>
-                <span>Jun 2026</span>
+                <span>May 2026</span>
               </div>
               <h3>The .env That Vanished: What Claude Code's deny Rules Actually Protect</h3>
               <p class="post-desc">I was certain my own security config was eating my .env in git worktrees — certain enough to write it up as advice. Then I instrumented the hook instead of guessing. The deny rule was a red herring; the real bug was one missing mkdir.</p>
@@ -168,7 +179,7 @@
               <div class="post-meta">
                 <span class="post-tag">Agent Infrastructure</span>
                 <span>·</span>
-                <span>Jun 2026</span>
+                <span>May 2026</span>
               </div>
               <h3>Local or Remote? A Decision Rule for Scheduling AI Agents</h3>
               <p class="post-desc">The hard question about a scheduled agent isn't what it does — it's where it runs. The deciding axis is the secret, not the task — plus why an agent's instructions belong in version control.</p>

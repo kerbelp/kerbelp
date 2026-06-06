@@ -3,49 +3,49 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pavelkerbel.com/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/home.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/blog.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/build-from-your-phone-claude-code-ngrok/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/build-from-your-phone-claude-code-ngrok.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/claude-code-context-is-a-budget/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/claude-code-context-is-a-budget.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/parallel-claude-code-worktrees-named-sessions/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-05-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/parallel-claude-code-worktrees-named-sessions.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/claude-code-deny-rules-not-a-sandbox/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-05-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/claude-code-deny-rules-not-a-sandbox.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/local-or-remote-scheduling-ai-agents/</loc>
-    <lastmod>2026-06-05</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/local-or-remote-scheduling-ai-agents.png</image:loc></image:image>
