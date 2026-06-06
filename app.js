@@ -20,7 +20,10 @@ const PROJECTS = [
       "Self-hosted by design: your architectural knowledge never leaves your infrastructure.",
       "Cuts hallucinated refactors by grounding agents in real prior decisions.",
     ],
-    links: [{ label: "View on GitHub", href: "https://github.com/kerbelp/metatron", icon: "github" }],
+    links: [
+      { label: "Visit the site", href: "http://getmetatron.com/", icon: "arrowUpRight" },
+      { label: "View on GitHub", href: "https://github.com/kerbelp/metatron", icon: "github" },
+    ],
   },
   {
     id: "gemma",
