@@ -41,6 +41,7 @@ const PROJECTS = [
     ],
     links: [
       { label: "Get it on Google Play", href: "https://play.google.com/store/apps/details?id=org.gemmaguard.android", icon: "googlePlay" },
+      { label: "Visit the site", href: "https://gemmaguard.org/", icon: "arrowUpRight" },
       { label: "View on GitHub", href: "https://github.com/GemmaGuard/gemma-guard-android", icon: "github" },
       { label: "Read the writeup", href: "https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1775994235038", icon: "arrowUpRight" },
     ],
