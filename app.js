@@ -40,6 +40,7 @@ const PROJECTS = [
       "Built for the Gemma 4 hackathon — full architecture writeup published.",
     ],
     links: [
+      { label: "Get it on Google Play", href: "https://play.google.com/store/apps/details?id=org.gemmaguard.android", icon: "googlePlay" },
       { label: "View on GitHub", href: "https://github.com/GemmaGuard/gemma-guard-android", icon: "github" },
       { label: "Read the writeup", href: "https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1775994235038", icon: "arrowUpRight" },
     ],
@@ -89,6 +90,7 @@ const PROJECTS = [
 const ICONS = {
   github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>',
   arrowUpRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+  googlePlay: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3a1 1 0 0 0-.6.9v17.6a1 1 0 0 0 .6.9l9.9-9.7-9.9-9.7Zm11.3 8.3 2.6 2.6-2.6 2.6-2.7-2.6 2.7-2.6Zm0-1.4L5.4 0l10.2 5.8 1.5 1.4-2.2 2.2v-.2Zm0 8L17 19l-1.5 1.4L5.4 24l9.5-9.5Z"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
   close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
   graph: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6 10.4 16M16.4 8.7 13.4 16M8.3 6.4h7.4"/></svg>',
