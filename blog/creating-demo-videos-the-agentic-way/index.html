@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZ51RTLZ8E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NZ51RTLZ8E');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creating Demo Videos the Agentic Way — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="How to produce a fully narrated, music-scored product demo as a reproducible pipeline an agent runs end to end: ElevenLabs voiceover, Playwright screen capture seeded with real data, ffmpeg mixing with sidechain ducking, and an auto-generated YouTube thumbnail — no screen recorder, no video editor.">
+  <meta name="keywords" content="demo video automation, Claude Code, Playwright video recording, ElevenLabs API, ElevenLabs voice cloning, ffmpeg sidechain compression, YouTube thumbnail generator, agentic workflow, recordVideo, MCP demo">
+  <link rel="canonical" href="https://pavelkerbel.com/blog/creating-demo-videos-the-agentic-way/">
+  <meta property="og:title" content="Creating Demo Videos the Agentic Way">
+  <meta property="og:description" content="A product demo built as code: ElevenLabs narration, Playwright screen capture seeded with real data, ffmpeg mixing, and a generated thumbnail — driven end to end by an agent.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/blog/creating-demo-videos-the-agentic-way/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <!-- Icons & theme -->
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#0B0B0C">
+
+  <!-- Open Graph image + site -->
+  <meta property="og:site_name" content="Pavel Kerbel">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://pavelkerbel.com/assets/og/creating-demo-videos-the-agentic-way.png">
+  <meta property="og:image:secure_url" content="https://pavelkerbel.com/assets/og/creating-demo-videos-the-agentic-way.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Creating Demo Videos the Agentic Way">
+  <meta property="article:published_time" content="2026-06-08T09:00:00+00:00">
+  <meta property="article:modified_time" content="2026-06-08T09:00:00+00:00">
+  <meta property="article:author" content="Pavel Kerbel">
+  <meta property="article:section" content="Claude Code Workflow">
+  <meta property="article:tag" content="claude-code">
+  <meta property="article:tag" content="playwright">
+  <meta property="article:tag" content="elevenlabs">
+  <meta property="article:tag" content="ffmpeg">
+  <meta property="article:tag" content="automation">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@kerbelp">
+  <meta name="twitter:creator" content="@kerbelp">
+  <meta name="twitter:title" content="Creating Demo Videos the Agentic Way">
+  <meta name="twitter:description" content="A product demo built as code: ElevenLabs narration, Playwright screen capture seeded with real data, ffmpeg mixing, and a generated thumbnail — driven end to end by an agent.">
+  <meta name="twitter:image" content="https://pavelkerbel.com/assets/og/creating-demo-videos-the-agentic-way.png">
+  <meta name="twitter:image:alt" content="Creating Demo Videos the Agentic Way">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Creating Demo Videos the Agentic Way",
+  "description": "How to produce a fully narrated, music-scored product demo as a reproducible pipeline an agent runs end to end: ElevenLabs voiceover, Playwright screen capture seeded with real data, ffmpeg mixing with sidechain ducking, and an auto-generated YouTube thumbnail.",
+  "image": "https://pavelkerbel.com/assets/og/creating-demo-videos-the-agentic-way.png",
+  "datePublished": "2026-06-08T09:00:00+00:00",
+  "dateModified": "2026-06-08T09:00:00+00:00",
+  "author": {
+    "@type": "Person",
+    "name": "Pavel Kerbel",
+    "url": "https://pavelkerbel.com/",
+    "sameAs": [
+      "https://github.com/kerbelp",
+      "https://www.linkedin.com/in/kerbelp/"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Pavel Kerbel",
+    "url": "https://pavelkerbel.com/"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://pavelkerbel.com/blog/creating-demo-videos-the-agentic-way/"
+  },
+  "url": "https://pavelkerbel.com/blog/creating-demo-videos-the-agentic-way/",
+  "articleSection": "Claude Code Workflow",
+  "keywords": "claude-code, playwright, elevenlabs, ffmpeg, automation, ai-infrastructure",
+  "inLanguage": "en-US"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://pavelkerbel.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Writing",
+      "item": "https://pavelkerbel.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Creating Demo Videos the Agentic Way",
+      "item": "https://pavelkerbel.com/blog/creating-demo-videos-the-agentic-way/"
+    }
+  ]
+}
+  </script>
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../blog.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="claude-code,playwright,elevenlabs,ffmpeg,automation,ai-infrastructure">
+      <div class="read">
+        <a class="backlink" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          All writing
+        </a>
+
+        <header class="article-head">
+          <span class="article-tag">Claude Code Workflow</span>
+          <h1>Creating Demo Videos the Agentic Way</h1>
+          <div class="article-meta">
+            <span>June 8, 2026</span>
+            <span class="sep">/</span>
+            <span>9 min read</span>
+            <span class="sep">/</span>
+            <span>Claude Code · Playwright · ElevenLabs</span>
+          </div>
+          <p class="article-lede">
+            Every developer tool needs a demo video, and making one is the same chore every time: script it, rehearse it, screen-record it, fumble a click in take seven, re-record, then fight the audio levels in some editor. I just built one a completely different way — as <em>code</em> an agent writes, runs, and re-runs. No screen recorder. No video editor. Re-rendering the whole thing after feedback was one command. Here's the method.
+          </p>
+          <div class="tags">
+            <a class="tag-chip" href="../?tag=claude-code">#claude-code</a>
+            <a class="tag-chip" href="../?tag=playwright">#playwright</a>
+            <a class="tag-chip" href="../?tag=elevenlabs">#elevenlabs</a>
+            <a class="tag-chip" href="../?tag=ffmpeg">#ffmpeg</a>
+            <a class="tag-chip" href="../?tag=automation">#automation</a>
+            <a class="tag-chip" href="../?tag=ai-infrastructure">#ai-infrastructure</a>
+          </div>
+        </header>
+
+        <div class="prose">
+          <p>
+            The product I was demoing was <a href="https://github.com/kerbelp/metatron" target="_blank" rel="noreferrer">Metatron</a> — a self-hosted system that extracts a codebase's decisions and serves them to coding agents over MCP. But this post isn't about Metatron. It's about the <em>method</em>, and it transfers to any product with a UI: <strong>creating demo videos the agentic way.</strong>
+          </p>
+
+          <h2>A demo is three layers, not one recording</h2>
+          <p>
+            The decision that makes everything else work is refusing to bake the video as one monolithic recording. Split it into three stages, each producing a separate, swappable artifact:
+          </p>
+          <pre><code>gen-audio.mjs   → audio/*.mp3                       (ElevenLabs: voiceover + music)
+record-demo.mjs → video/raw.webm + timing.json      (Playwright: drive UI + capture)
+mix-demo.mjs    → final/demo.mp4                     (ffmpeg: overlay VO + duck music)</code></pre>
+          <p>
+            Because the layers are independent, "make the music quieter" is a re-run of stage three, not a re-shoot. "Rewrite scene four's narration" is stage one plus stage three. "The UI changed" is stage two plus three. Nothing is ever locked. The glue between them is a tiny <code>timing.json</code> the recorder emits — the measured start offset of every scene — so the mixer knows exactly where to drop each line.
+          </p>
+          <div class="callout">
+            <p class="callout-label">The mental model</p>
+            <p>Stop thinking "recording," start thinking "build." A demo video is a build artifact with three inputs — narration, screen capture, and a mix recipe — and the agent owns the whole Makefile.</p>
+          </div>
+
+          <h2>Narration is just data</h2>
+          <p>
+            Voiceover is the part everyone assumes needs a human. It doesn't. The <a href="https://elevenlabs.io" target="_blank" rel="noreferrer">ElevenLabs</a> API turns a scene-by-scene script into broadcast-quality audio:
+          </p>
+          <pre><code>const el = new ElevenLabsClient({ apiKey: process.env.ELEVENLABS_API_KEY });
+
+const audio = await el.textToSpeech.convert(VOICE_ID, {
+  text: 'This is Metatron. Right now, it knows nothing about your codebase.',
+  modelId: 'eleven_multilingual_v2',
+  outputFormat: 'mp3_44100_128',
+});  // collect the stream → audio/s1.mp3</code></pre>
+          <p>
+            Two things worth knowing. First, on the free tier the API blocks the premade "library" voices — you need a paid plan and a key scoped for <code>text_to_speech</code> + <code>voices_read</code> to use them programmatically. Second, and this is the move for a founder demo: <strong>ElevenLabs can clone your own voice.</strong> Record a minute of yourself, and every line renders in your voice from the same <code>convert()</code> call. The agent writes and produces the narration; it still sounds like you.
+          </p>
+          <p>
+            The same SDK composes the <strong>background music</strong> from a prompt (<code>el.music.compose({ prompt, musicLengthMs })</code>) — generate the bed <em>longer than the video</em> so it never runs dry. And make the generator selective, so you only re-bill the lines you actually changed:
+          </p>
+          <pre><code>node gen-audio.mjs s4 s5 music   # regenerate just these; leave the rest</code></pre>
+          <p>
+            After generating, <code>ffprobe</code> each clip's duration. Those numbers drive the pacing in the next stage.
+          </p>
+
+          <h2>Drive the product, don't film it</h2>
+          <p>
+            This is where "agentic" earns its name. Playwright launches a real browser, performs the exact clicks and hovers a human would, and records the session to video natively — no OS screen recorder in the loop:
+          </p>
+          <pre><code>const ctx = await browser.newContext({
+  viewport: { width: 1920, height: 1080 },
+  deviceScaleFactor: 2,                                 // retina-crisp
+  recordVideo: { dir: 'video', size: { width: 1920, height: 1080 } },
+});</code></pre>
+          <p>
+            The demo is a sequence of <strong>scene functions</strong>, each paced to its narration length and timestamped live so audio and visuals stay locked:
+          </p>
+          <pre><code>const t0 = Date.now();
+const el = () =&gt; (Date.now() - t0) / 1000;
+const timing = [];
+
+async function scene(id, fn) {
+  const start = el();
+  await fn();                                  // the clicks + hovers
+  const need = DUR[id] + TAIL;                 // VO length + a little tail
+  if (el() - start &lt; need) await sleep(need - (el() - start));
+  timing.push({ id, voOffset: +(start + HEAD).toFixed(2) });
+}</code></pre>
+          <p>
+            Two patterns made this robust. The first is <strong>seeding the backend in lockstep</strong>. Running live agents inside the demo would be slow, non-deterministic, and expensive. Instead, the recorder shells out to a small script that inserts <em>real</em> database rows at the exact moment a scene needs them — a query here, a piece of feedback there, a wave of new users. The UI reacts to genuine data; only the <em>timing</em> is choreographed.
+          </p>
+          <p>
+            The second is a <strong>live poll so seeded state actually shows up</strong>. The view has to notice the new rows without a reload — but a naïve poll re-renders constantly and makes the UI flicker. The fix: poll every few seconds, but only update when a <em>substantive signature</em> of the data changes, ignoring volatile fields like timestamps.
+          </p>
+          <pre><code>const sig = (d) =&gt; d.agents.map(a =&gt; `${a.id}:${a.served}:${a.feedback}`).join('|')
+                 + '#' + d.traces.map(t =&gt; `${t.from}&gt;${t.to}`).join('|');
+// poll every 4s; setState only when sig changes → rock-steady, animates in on a beat</code></pre>
+          <div class="callout">
+            <p class="callout-label">The rule</p>
+            <p>Choreograph the <strong>timing</strong>, not the data. Seed real records through the real code path; never fake the UI. The result is a demo that's both perfectly paced and genuinely true — and re-takeable, because you snapshot the database and restore it for a clean run every time.</p>
+          </div>
+          <p>
+            Because nothing is live, the same two-minute take records identically fifty times. The recorder finishes by writing the silent <code>raw.webm</code> and the <code>timing.json</code> map of where every line belongs.
+          </p>
+
+          <h2>Mix it like a producer</h2>
+          <p>
+            Now combine the silent video, the voiceover clips (each at its measured offset), and the music bed. It's one <code>ffmpeg</code> filtergraph, built programmatically from <code>timing.json</code>. Three touches separate "screen recording with audio" from "a video":
+          </p>
+          <pre><code>[1:a]adelay=3320:all=1[a0]; [2:a]adelay=11690:all=1[a1]; ...      # VO at scene offsets
+[a0][a1]...amix=inputs=9:normalize=0[vo]; [vo]asplit=2[vokey][vomix];
+
+[10:a]aloop=loop=-1:size=8820000,volume=0.16[mus];               # loop the bed
+[mus][vokey]sidechaincompress=threshold=0.04:ratio=5:attack=20:release=400[musd];
+[vomix][musd]amix=inputs=2:normalize=0[mixout]</code></pre>
+          <ol>
+            <li><strong>Sidechain ducking.</strong> The <code>sidechaincompress</code> filter, keyed off a split copy of the voice, makes the music dip ~5&nbsp;dB whenever the narrator speaks and lift back in the gaps. It's the difference between music that fights the voice and music that supports it.</li>
+            <li><strong>Loop in the filtergraph</strong> with <code>aloop</code>, not <code>-stream_loop</code> — the latter can drop out under <code>amix</code>.</li>
+            <li><strong>Trim the dead air.</strong> Browser capture starts before the page paints, so the video opens on a second of black. Detect it with <code>blackdetect</code>, cut it, and shift every VO offset by the same amount so sync survives.</li>
+          </ol>
+          <p>
+            One command, and you have <code>demo.mp4</code>: 1080p, narrated, scored, opening on the product instead of a black screen.
+          </p>
+
+          <h2>Thumbnails and channel art: render HTML, not <code>drawtext</code></h2>
+          <p>
+            YouTube wants a 1280×720 thumbnail and a 2048×1152 banner. The lazy path is <code>ffmpeg drawtext</code>, and it looks like it. The agentic path reuses the browser you already have: lay the thumbnail out in <strong>HTML and CSS</strong> — real fonts, gradients, a darkened product frame behind a bold headline — and screenshot it with Playwright at 2× for crisp supersampling. Parameterize the headline so you can spin variants instantly. For the banner, design around YouTube's center <em>safe area</em> (~1235×338): wordmark and tagline in the middle, atmosphere in the edges that get cropped on mobile and TV. (This very post's social card was generated the same way.)
+          </p>
+
+          <h2>Quarantine the heavy stuff</h2>
+          <p>
+            A demo pipeline produces large binaries — the raw <code>.webm</code>, the final <code>.mp4</code>, audio stems — and, importantly, <strong>staging scripts</strong> that reveal the demo is choreographed. None of that belongs in your public product repo: it bloats history and quietly undercuts the "this is real" impression. So the whole pipeline lives in a separate, <strong>private <code>marketing</code> repo</strong>, with a <code>.gitignore</code> that versions the reproducible parts (scripts, docs, audio stems) and excludes the regenerable heavyweight (<code>node_modules</code>, the raw capture).
+          </p>
+          <p>
+            For the <em>finished</em> public video, cut a <strong>GitHub Release</strong> and attach the MP4 — that gives you a stable URL to embed in a README without committing the binary. Then derive every social format from the one master with a few <code>ffmpeg</code> lines: a silent autoplay <strong>loop</strong> of the climax, an animated <strong>GIF/WebP</strong>, and <strong>1:1</strong> and <strong>9:16</strong> crops for X, LinkedIn, and Shorts.
+          </p>
+
+          <hr>
+
+          <h2>Why this is the agentic way</h2>
+          <p>
+            Step back and look at what the agent actually did, end to end: wrote the scene script and the narration; generated the voiceover and music from text; drove a real browser through the product, seeding the backend in time with the clicks; recorded it, measured the timing, and mixed audio and video with broadcast-style ducking; rendered the thumbnail and channel banner; and organized it all into a private repo with the finished cut shipped as a Release.
+          </p>
+          <p>
+            And because every step is a script, <strong>feedback is cheap</strong>. "Quieter music," "use these names," "trim the intro," "different headline" — each is a one-line change and a re-run, not a re-shoot. The first cut and the fifth cut cost the same. That's the unlock: a demo video stops being a dreaded one-off production and becomes what it should have been all along — <strong>code you can re-run.</strong>
+          </p>
+          <ul>
+            <li><strong>Separate audio, video, and mix.</strong> Swappability is the whole game.</li>
+            <li><strong>Generate narration with an API</strong> — and clone your own voice if you want it to sound like you.</li>
+            <li><strong>Drive the UI with Playwright</strong> and seed <em>real</em> data on cue; choreograph timing, not fakery.</li>
+            <li><strong>Measure scene offsets at record time</strong> and let the mixer place narration from that map.</li>
+            <li><strong>Duck the music with sidechain compression</strong> and trim the leading black — small touches, big polish gap.</li>
+            <li><strong>Render thumbnails and banners as HTML</strong>, screenshot at 2×.</li>
+            <li><strong>Quarantine media and staging scripts</strong> in a private repo; ship the finished cut via a Release.</li>
+          </ul>
+          <p>
+            None of this replaces taste — you still decide the story, the voice, the framing. It just makes the <em>production</em> reproducible, so taste is the only expensive part.
+          </p>
+        </div>
+
+        <div class="article-foot">
+          <span class="sig">Written by <b>Pavel Kerbel</b> — Principal Software Engineer &amp; Distributed Systems Architect.</span>
+          <a class="backlink" href="../">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            More writing
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://x.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> X</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="https://medium.com/@kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z"/></svg> Medium</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
