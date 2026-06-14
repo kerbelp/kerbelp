@@ -7,6 +7,27 @@ const EMAIL = "hello@pavelkerbel.com";
 // --- Project Data ---
 const PROJECTS = [
   {
+    id: "discoveryquest",
+    kind: "Open-Core · Kids EdTech",
+    glyph: "compass",
+    title: "Discovery Quest",
+    chips: ["Turborepo", "ElevenLabs", "Open Core"],
+    repo: "https://github.com/discoveryquest/discovery-quest",
+    lede: "Most kids' learning apps reward finishing, assume the child can already read, and apply one difficulty to everyone. Discovery Quest is voice-first instead — every problem narrated by Luna the owl so pre-readers (in any language) can play — built on an AI-native open-core engine where a course is data an AI can draft and a deterministic validator can prove.",
+    points: [
+      "Voice-first by design: Luna narrates every question and hint, so reading-readiness is no longer the gate — and localization becomes a content swap, not a rewrite.",
+      "Mastery, not completion: difficulty adapts within each station, stars reward getting it right, and spaced 'Blast from the Past' review keeps skills from fading.",
+      "Courses are data, not code — an AI drafts a course from the engine's capability catalog; course:check validates structure and semantics before any of it reaches a child.",
+      "Open core (AGPL): the engine, format, validator, and official courses are open; the hosted apps, accounts, audio, and AI tooling are the product.",
+    ],
+    links: [
+      { label: "Visit the site", href: "https://discoveryquest.app", icon: "arrowUpRight" },
+      { label: "Play Math Quest", href: "https://math.discoveryquest.app", icon: "arrowUpRight" },
+      { label: "View on GitHub", href: "https://github.com/discoveryquest/discovery-quest", icon: "github" },
+      { label: "Read the story", href: "/blog/why-i-built-discovery-quest/", icon: "arrowUpRight" },
+    ],
+  },
+  {
     id: "metatron",
     kind: "MCP · Agent Infra",
     glyph: "graph",
@@ -97,7 +118,8 @@ const ICONS = {
   graph: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6 10.4 16M16.4 8.7 13.4 16M8.3 6.4h7.4"/></svg>',
   cpu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v2.5M15 2v2.5M9 19.5V22M15 19.5V22M2 9h2.5M2 15h2.5M19.5 9H22M19.5 15H22"/></svg>',
   layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg>',
-  flow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h4a3 3 0 0 1 3 3v6"/></svg>'
+  flow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h4a3 3 0 0 1 3 3v6"/></svg>',
+  compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></svg>'
 };
 
 // --- Easing Function for Count Up ---

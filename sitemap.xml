@@ -3,17 +3,24 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pavelkerbel.com/</loc>
-    <lastmod>2026-06-08</lastmod>
+    <lastmod>2026-06-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/home.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/</loc>
-    <lastmod>2026-06-08</lastmod>
+    <lastmod>2026-06-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://pavelkerbel.com/assets/og/blog.png</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://pavelkerbel.com/blog/why-i-built-discovery-quest/</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image><image:loc>https://pavelkerbel.com/assets/og/why-i-built-discovery-quest.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://pavelkerbel.com/blog/creating-demo-videos-the-agentic-way/</loc>

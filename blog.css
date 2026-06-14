@@ -178,6 +178,25 @@
   line-height: 1.6;
 }
 
+/* ---- figure / screenshot ---- */
+.prose figure { margin: 0; }
+.prose figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 18px 50px -22px rgba(0,0,0,0.65);
+}
+.prose figcaption {
+  margin-top: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+  text-align: center;
+}
+.prose figcaption a { color: var(--text-mute); }
+
 /* ---- callout ---- */
 .callout {
   border: 1px solid var(--line);
