@@ -7,6 +7,26 @@ const EMAIL = "hello@pavelkerbel.com";
 // --- Project Data ---
 const PROJECTS = [
   {
+    id: "contextmd",
+    kind: "New · Open Standard · Agent Context",
+    glyph: "fileText",
+    title: "Context.md — The Repository Context Layer",
+    chips: ["Open Standard", "Whitepaper", "Git-native"],
+    repo: "https://github.com/kerbelp/context-md",
+    lede: "AI agents re-litigate settled decisions because the reasons live in chat scrollback and people's heads. Context.md proposes the missing layer: a version-controlled, human-readable context store agents are required to consult before planning and expected to update after executing — under human review.",
+    points: [
+      "Three sections — Intent, Constraints, Evolved Context — where every rule carries its reason, so agents can generalize instead of merely comply.",
+      "Context changes travel in the same reviewed commit as the code that motivated them: the agent's beliefs are in the diff.",
+      "Branch-aware for free: context branches, merges, and rolls back with the repository it describes.",
+      "Tool-independent — no SDK, no server. Any agent that can read a file participates; any human with a text editor is a first-class writer.",
+    ],
+    links: [
+      { label: "View on GitHub", href: "https://github.com/kerbelp/context-md", icon: "github" },
+      { label: "Read the whitepaper", href: "https://github.com/kerbelp/repository-context-layer", icon: "arrowUpRight" },
+      { label: "Minimal spec", href: "https://github.com/kerbelp/context-md/blob/main/SPEC.md", icon: "arrowUpRight" },
+    ],
+  },
+  {
     id: "discoveryquest",
     kind: "Open-Core · Kids EdTech",
     glyph: "compass",
@@ -115,6 +135,7 @@ const ICONS = {
   googlePlay: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3a1 1 0 0 0-.6.9v17.6a1 1 0 0 0 .6.9l9.9-9.7-9.9-9.7Zm11.3 8.3 2.6 2.6-2.6 2.6-2.7-2.6 2.7-2.6Zm0-1.4L5.4 0l10.2 5.8 1.5 1.4-2.2 2.2v-.2Zm0 8L17 19l-1.5 1.4L5.4 24l9.5-9.5Z"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
   close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+  fileText: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-5-5Z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
   graph: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6 10.4 16M16.4 8.7 13.4 16M8.3 6.4h7.4"/></svg>',
   cpu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v2.5M15 2v2.5M9 19.5V22M15 19.5V22M2 9h2.5M2 15h2.5M19.5 9H22M19.5 15H22"/></svg>',
   layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg>',
