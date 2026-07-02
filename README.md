@@ -12,6 +12,7 @@ Specializing in high-availability enterprise infrastructure and production-grade
 * **GenAI Orchestration:** Building deterministic, non-linear agent systems and exploring hardware-constrained local LLM optimization.
 
 ### 🚀 Featured Projects
+* **[Context.md](https://github.com/kerbelp/context-md):** A proposed standard for AI project context — the Repository Context Layer: one git-versioned markdown file agents consult before planning and update after executing, under human review.
 * **[Metatron](https://github.com/kerbelp/metatron):** A self-hosted Model Context Protocol (MCP) server that maps codebase-specific architectural decisions into structured priors for autonomous coding agents.
 * **[Gemma Guard](https://github.com/GemmaGuard/gemma-guard-android):** Native Android app leveraging a locally executed Gemma 4 E2 model for private, on-device text classification.
 * **[AI Collection](https://github.com/ai-collection/ai-collection):** An open-source ecosystem and curation platform for cutting-edge AI research and tools (8,700+ GitHub stars).
