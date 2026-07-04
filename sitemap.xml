@@ -16,6 +16,12 @@
     <image:image><image:loc>https://pavelkerbel.com/assets/og/blog.png</image:loc></image:image>
   </url>
   <url>
+    <loc>https://pavelkerbel.com/papers/repository-context-layer/</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pavelkerbel.com/blog/why-i-built-discovery-quest/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>yearly</changefreq>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZ51RTLZ8E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NZ51RTLZ8E');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context — Pavel Kerbel</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Preprint: the Repository Context Layer (RCL), an architecture pattern in which a repository carries its own agent-facing context through a consult-execute-update-commit lifecycle. Properties, discovery specification, the context.md format, design analysis, and the Metatron reference implementation.">
+  <meta name="keywords" content="repository context layer, context.md, AI coding agents, agent memory, architecture decision records, human-in-the-loop review, git-native context, agentic software development">
+  <link rel="canonical" href="https://pavelkerbel.com/papers/repository-context-layer/">
+  <meta name="author" content="Pavel Kerbel">
+
+  <!-- Google Scholar (Highwire Press) -->
+  <meta name="citation_title" content="The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context">
+  <meta name="citation_author" content="Kerbel, Pavel">
+  <meta name="citation_publication_date" content="2026/07/04">
+  <meta name="citation_online_date" content="2026/07/04">
+  <meta name="citation_pdf_url" content="https://pavelkerbel.com/papers/repository-context-layer/repository-context-layer-paper.pdf">
+  <meta name="citation_abstract_html_url" content="https://pavelkerbel.com/papers/repository-context-layer/">
+  <meta name="citation_language" content="en">
+  <meta name="citation_keywords" content="repository context layer; context.md; architecture decision records; agent memory; human-in-the-loop review; self-improving repositories">
+  <meta name="citation_technical_report_institution" content="Independent Researcher">
+  <meta name="citation_technical_report_number" content="Preprint v0.1">
+
+  <!-- Icons & theme -->
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#0B0B0C">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Pavel Kerbel">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context">
+  <meta property="og:description" content="Preprint: an architecture pattern in which a repository carries its own agent-facing context — versioned by Git, gated by code review, updated as a routine part of every change.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://pavelkerbel.com/papers/repository-context-layer/">
+  <meta property="article:published_time" content="2026-07-04T09:00:00+00:00">
+  <meta property="article:author" content="Pavel Kerbel">
+
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context",
+  "description": "An architecture pattern in which a repository carries its own agent-facing context through a defined consult-execute-update-commit lifecycle: required properties, branch/merge/rollback semantics, a deterministic discovery specification, the context.md file format, design analysis, and the Metatron reference implementation.",
+  "datePublished": "2026-07-04",
+  "dateModified": "2026-07-04",
+  "author": {
+    "@type": "Person",
+    "name": "Pavel Kerbel",
+    "url": "https://pavelkerbel.com/",
+    "sameAs": [
+      "https://github.com/kerbelp",
+      "https://www.linkedin.com/in/kerbelp/"
+    ]
+  },
+  "publisher": { "@type": "Person", "name": "Pavel Kerbel", "url": "https://pavelkerbel.com/" },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://pavelkerbel.com/papers/repository-context-layer/" },
+  "url": "https://pavelkerbel.com/papers/repository-context-layer/",
+  "keywords": "repository context layer, context.md, agent memory, architecture decision records, human-in-the-loop review",
+  "inLanguage": "en-US",
+  "encoding": {
+    "@type": "MediaObject",
+    "contentUrl": "https://pavelkerbel.com/papers/repository-context-layer/repository-context-layer-paper.pdf",
+    "encodingFormat": "application/pdf"
+  }
+}
+  </script>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../../blog/" class="nav-link">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" data-tags="repository-context-layer,context-md,ai-agents,architecture">
+      <div class="read">
+        <a class="backlink" href="../../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+          Home
+        </a>
+
+        <header class="article-head">
+          <p class="article-kicker">Paper · Preprint v0.1 · July 2026</p>
+          <h1>The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context</h1>
+          <p class="article-meta">Pavel Kerbel · Independent Researcher</p>
+        </header>
+
+        <p>
+          <a href="repository-context-layer-paper.pdf"><strong>Download the paper (PDF, 6 pages)</strong></a>
+          · <a href="https://github.com/kerbelp/context-md" target="_blank" rel="noreferrer">Specification repository</a>
+          · <a href="https://github.com/kerbelp/metatron" target="_blank" rel="noreferrer">Reference implementation</a>
+        </p>
+
+        <h2>Abstract</h2>
+        <p>
+          AI coding agents now perform multi-step engineering work, yet every session begins
+          without the operating knowledge that shapes a codebase: the decisions taken, the
+          alternatives rejected, the constraints discovered during execution. Existing
+          mechanisms (documentation, architecture decision records, retrieval-augmented
+          generation, IDE memories, agent instruction files) each address a fragment of the
+          problem; none provides a store that is versioned with the code, consulted by
+          contract, and writable by agents under human review. This paper formalizes the
+          <em>Repository Context Layer</em> (RCL), an architecture pattern in which a
+          repository carries its own agent-facing context through a defined
+          consult&ndash;execute&ndash;update&ndash;commit lifecycle. We separate the pattern
+          into four independent layers: the architecture, a deterministic discovery
+          specification, a minimal file format (<code>context.md</code>), and
+          implementations. We give branch, merge, and rollback semantics inherited from Git,
+          analyze the contested design choices (single file versus many, append-only
+          semantics, conflict handling, hierarchy, and the limits of agent
+          self-modification), and report on Metatron, a reference implementation. We argue
+          that repository context should be treated as a first-class, versioned artifact of
+          software projects, alongside code, tests, and documentation.
+        </p>
+
+        <h2>Cite</h2>
+        <pre><code>Kerbel, P. (2026). The Repository Context Layer: A Git-Native Architecture
+for Persistent Agent Context. Preprint v0.1.
+https://pavelkerbel.com/papers/repository-context-layer/</code></pre>
+
+        <p>
+          Companion artifacts: the
+          <a href="https://github.com/kerbelp/context-md" target="_blank" rel="noreferrer">Repository Context Layer manifesto and minimal specification</a>,
+          and <a href="https://github.com/kerbelp/metatron" target="_blank" rel="noreferrer">Metatron</a>,
+          the reference implementation discussed in Section 9.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> GitHub</a>
+        <a href="https://x.com/kerbelp" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> X</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg> LinkedIn</a>
+        <a href="mailto:hello@pavelkerbel.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>

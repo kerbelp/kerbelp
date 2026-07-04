@@ -22,6 +22,7 @@ const PROJECTS = [
     ],
     links: [
       { label: "View on GitHub", href: "https://github.com/kerbelp/context-md", icon: "github" },
+      { label: "Read the paper", href: "/papers/repository-context-layer/", icon: "arrowUpRight" },
       { label: "Read the whitepaper", href: "https://github.com/kerbelp/repository-context-layer", icon: "arrowUpRight" },
       { label: "Minimal spec", href: "https://github.com/kerbelp/context-md/blob/main/SPEC.md", icon: "arrowUpRight" },
     ],
