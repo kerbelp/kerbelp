@@ -18,11 +18,16 @@
   <meta name="description" content="Preprint: the Repository Context Layer (RCL), an architecture pattern in which a repository carries its own agent-facing context through a consult-execute-update-commit lifecycle. Properties, discovery specification, the context.md format, design analysis, and the Metatron reference implementation.">
   <meta name="keywords" content="repository context layer, context.md, AI coding agents, agent memory, architecture decision records, human-in-the-loop review, git-native context, agentic software development">
   <link rel="canonical" href="https://pavelkerbel.com/papers/repository-context-layer/">
-  <meta name="author" content="Pavel Kerbel">
+  <meta name="author" content="Pavel Kerbel, Milana Kerbel">
 
   <!-- Google Scholar (Highwire Press) -->
   <meta name="citation_title" content="The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context">
   <meta name="citation_author" content="Kerbel, Pavel">
+  <meta name="citation_author_orcid" content="0009-0004-4679-1036">
+  <meta name="citation_author_institution" content="Independent Researcher">
+  <meta name="citation_author" content="Kerbel, Milana">
+  <meta name="citation_author_orcid" content="0009-0004-7893-9824">
+  <meta name="citation_author_institution" content="Independent Researcher">
   <meta name="citation_publication_date" content="2026/07/04">
   <meta name="citation_online_date" content="2026/07/04">
   <meta name="citation_pdf_url" content="https://pavelkerbel.com/papers/repository-context-layer/repository-context-layer-paper.pdf">
@@ -60,16 +65,38 @@
   "headline": "The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context",
   "description": "An architecture pattern in which a repository carries its own agent-facing context through a defined consult-execute-update-commit lifecycle: required properties, branch/merge/rollback semantics, a deterministic discovery specification, the context.md file format, design analysis, and the Metatron reference implementation.",
   "datePublished": "2026-07-04",
-  "dateModified": "2026-07-04",
-  "author": {
-    "@type": "Person",
-    "name": "Pavel Kerbel",
-    "url": "https://pavelkerbel.com/",
-    "sameAs": [
-      "https://github.com/kerbelp",
-      "https://www.linkedin.com/in/kerbelp/"
-    ]
-  },
+  "dateModified": "2026-07-05",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Pavel Kerbel",
+      "url": "https://pavelkerbel.com/",
+      "affiliation": { "@type": "Organization", "name": "Independent Researcher" },
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "https://orcid.org",
+        "value": "https://orcid.org/0009-0004-4679-1036"
+      },
+      "sameAs": [
+        "https://orcid.org/0009-0004-4679-1036",
+        "https://github.com/kerbelp",
+        "https://www.linkedin.com/in/kerbelp/"
+      ]
+    },
+    {
+      "@type": "Person",
+      "name": "Milana Kerbel",
+      "affiliation": { "@type": "Organization", "name": "Independent Researcher" },
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "https://orcid.org",
+        "value": "https://orcid.org/0009-0004-7893-9824"
+      },
+      "sameAs": [
+        "https://orcid.org/0009-0004-7893-9824"
+      ]
+    }
+  ],
   "publisher": { "@type": "Person", "name": "Pavel Kerbel", "url": "https://pavelkerbel.com/" },
   "mainEntityOfPage": { "@type": "WebPage", "@id": "https://pavelkerbel.com/papers/repository-context-layer/" },
   "url": "https://pavelkerbel.com/papers/repository-context-layer/",
@@ -118,7 +145,13 @@
         <header class="article-head">
           <p class="article-tag">Paper · Preprint v0.1 · July 2026</p>
           <h1>The Repository Context Layer: A Git-Native Architecture for Persistent Agent Context</h1>
-          <p class="article-meta">Pavel Kerbel · Independent Researcher</p>
+          <p class="article-meta">Pavel Kerbel, Milana Kerbel · Independent Researcher</p>
+          <p class="article-meta" style="font-size:13px;opacity:.75;margin-top:6px">
+            ORCID:
+            <a href="https://orcid.org/0009-0004-4679-1036" target="_blank" rel="noreferrer">0009-0004-4679-1036</a> (Pavel Kerbel)
+            ·
+            <a href="https://orcid.org/0009-0004-7893-9824" target="_blank" rel="noreferrer">0009-0004-7893-9824</a> (Milana Kerbel)
+          </p>
         </header>
 
         <div class="prose">
@@ -151,8 +184,8 @@
         </p>
 
         <h2>Cite</h2>
-        <pre><code>Kerbel, P. (2026). The Repository Context Layer: A Git-Native Architecture
-for Persistent Agent Context. Preprint v0.1.
+        <pre><code>Kerbel, P., &amp; Kerbel, M. (2026). The Repository Context Layer: A Git-Native
+Architecture for Persistent Agent Context. Preprint v0.1.
 https://pavelkerbel.com/papers/repository-context-layer/</code></pre>
 
         <p>
