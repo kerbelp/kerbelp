@@ -28,27 +28,6 @@ const PROJECTS = [
     ],
   },
   {
-    id: "discoveryquest",
-    kind: "Open-Core · Kids EdTech",
-    glyph: "compass",
-    title: "Discovery Quest",
-    chips: ["Turborepo", "ElevenLabs", "Open Core"],
-    repo: "https://github.com/discoveryquest/discovery-quest",
-    lede: "Most kids' learning apps reward finishing, assume the child can already read, and apply one difficulty to everyone. Discovery Quest is voice-first instead — every problem narrated by Luna the owl so pre-readers (in any language) can play — built on an AI-native open-core engine where a course is data an AI can draft and a deterministic validator can prove.",
-    points: [
-      "Voice-first by design: Luna narrates every question and hint, so reading-readiness is no longer the gate — and localization becomes a content swap, not a rewrite.",
-      "Mastery, not completion: difficulty adapts within each station, stars reward getting it right, and spaced 'Blast from the Past' review keeps skills from fading.",
-      "Courses are data, not code — an AI drafts a course from the engine's capability catalog; course:check validates structure and semantics before any of it reaches a child.",
-      "Open core (AGPL): the engine, format, validator, and official courses are open; the hosted apps, accounts, audio, and AI tooling are the product.",
-    ],
-    links: [
-      { label: "Visit the site", href: "https://discoveryquest.app", icon: "arrowUpRight" },
-      { label: "Play Math Quest", href: "https://math.discoveryquest.app", icon: "arrowUpRight" },
-      { label: "View on GitHub", href: "https://github.com/discoveryquest/discovery-quest", icon: "github" },
-      { label: "Read the story", href: "/blog/why-i-built-discovery-quest/", icon: "arrowUpRight" },
-    ],
-  },
-  {
     id: "metatron",
     kind: "MCP · Agent Infra",
     glyph: "graph",
