@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZ51RTLZ8E">
+</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NZ51RTLZ8E');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents — Pavel Kerbel</title>
+<meta name="description" content="Published ACM paper at AgenticDev ’26: architecture, pre-registered study, findings, replication materials, and the Munich presentation.">
+<meta name="author" content="Pavel Kerbel">
+<link rel="canonical" href="https://pavelkerbel.com/papers/context-inheritance/">
+<meta property="og:title" content="Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents">
+<meta property="og:description" content="Published ACM paper at AgenticDev ’26: architecture, pre-registered study, findings, replication materials, and the Munich presentation.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pavelkerbel.com/papers/context-inheritance/">
+<meta property="og:site_name" content="Pavel Kerbel">
+<meta property="og:image" content="https://pavelkerbel.com/assets/og/home.png">
+<meta property="article:published_time" content="2026-10-08T09:00:00+00:00">
+<meta property="article:modified_time" content="2026-10-21T09:00:00+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@kerbelp">
+<meta name="twitter:title" content="Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents">
+<meta name="twitter:description" content="Published ACM paper at AgenticDev ’26: architecture, pre-registered study, findings, replication materials, and the Munich presentation.">
+<meta name="twitter:image" content="https://pavelkerbel.com/assets/og/home.png">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../blog.css">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B0B0C">
+<meta name="citation_title" content="Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents">
+<meta name="citation_author" content="Kerbel, Pavel">
+<meta name="citation_author" content="Kerbel, Milana">
+<meta name="citation_author" content="Abramov, Vitali">
+<meta name="citation_author" content="Abramov, Liat">
+<meta name="citation_publication_date" content="2026/10/08">
+<meta name="citation_doi" content="10.1145/3843282.3844425">
+<meta name="citation_conference_title" content="Proceedings of the 1st International Workshop on Agentic AI for Next-Generation Software Development">
+<meta name="citation_firstpage" content="12">
+<meta name="citation_lastpage" content="20">
+<meta name="citation_publisher" content="Association for Computing Machinery">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents",
+  "description": "Published ACM paper at AgenticDev ’26: architecture, pre-registered study, findings, replication materials, and the Munich presentation.",
+  "url": "https://pavelkerbel.com/papers/context-inheritance/",
+  "mainEntityOfPage": "https://pavelkerbel.com/papers/context-inheritance/",
+  "datePublished": "2026-10-08",
+  "dateModified": "2026-10-21",
+  "inLanguage": "en-US",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Pavel Kerbel",
+      "sameAs": "https://orcid.org/0009-0004-4679-1036",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Metatron Research"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Milana Kerbel",
+      "sameAs": "https://orcid.org/0009-0004-7893-9824",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Metatron Research"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Vitali Abramov",
+      "sameAs": "https://orcid.org/0009-0007-0814-3822",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Metatron Research"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Liat Abramov",
+      "sameAs": "https://orcid.org/0009-0006-1601-146X",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Metatron Research"
+      }
+    }
+  ],
+  "identifier": "https://doi.org/10.1145/3843282.3844425",
+  "sameAs": "https://doi.org/10.1145/3843282.3844425",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Association for Computing Machinery"
+  },
+  "pageStart": "12",
+  "pageEnd": "20",
+  "isPartOf": {
+    "@type": "PublicationIssue",
+    "name": "Proceedings of the 1st International Workshop on Agentic AI for Next-Generation Software Development"
+  }
+}</script>
+</head>
+<body>
+  <div class="grain">
+</div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../../#research" class="nav-link">Research</a>
+        <a href="../../blog/" class="nav-link">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/>
+</svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+<main>
+<article class="article" data-tags="research,context-inheritance,ai-agents">
+<div class="read">
+<a class="backlink" href="../../">← Home</a>
+<header class="article-head">
+<span class="article-tag">Published paper · ACM · AgenticDev ’26</span>
+<h1>Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents</h1>
+<div class="article-meta">Pavel Kerbel · Milana Kerbel · Vitali Abramov · Liat Abramov<br>Metatron Research · Published October 8, 2026</div>
+<p class="article-lede">Engineering knowledge should survive the session that produced it. This paper introduces the Repository Context Layer and studies when one coding agent can inherit useful context from another.</p>
+</header>
+<div class="prose">
+<p>
+<a href="https://doi.org/10.1145/3843282.3844425">
+<strong>Read the published paper at ACM</strong>
+</a> · <a href="https://getmetatron.com/talks/context-inheritance/">Presentation &amp; PDF slides</a> · <a href="https://github.com/getmetatron/context-md/tree/main/experiment">Open study materials</a>
+</p>
+<h2>The question</h2>
+<p>A repository preserves the code a team shipped. It often loses the knowledge behind that code: the rejected approaches, constraints, and lessons from failed attempts. Can we make that knowledge a reviewed part of the repository, and can a future coding agent use it?</p>
+<h2>The Repository Context Layer</h2>
+<p>The paper describes a Git-native architecture for persistent agent context. Agents consult repository knowledge before working, execute their task, and propose context updates for human review. Context branches, merges, and rolls back with the code. <a href="https://github.com/getmetatron/context-md">Context.md</a> supplies the discovery contract; <a href="https://github.com/kerbelp/metatron">Metatron</a> is a reference implementation.</p>
+<h2>What the study found</h2>
+<p>The pre-registered study used SWE-bench Verified to examine context authorship, the agent reading it, and delivery. On tasks sharing relevant project constraints, an 8B local model’s code-localization accuracy increased from <strong>21.1% to 47.2%</strong> with frontier-authored context. Its own lessons brought no improvement. We call this pattern <em>context inheritance</em>.</p>
+<p>The strongest result concerns locating the right code, rather than a confirmed improvement in successful bug fixes. A frontier agent’s failure-derived lessons showed a directional resolve increase, but it did not remain significant after the reported multiple-comparison correction. On a broad random sample, no context delivery improved the frontier agent’s resolve rate.</p>
+<p>The experiment evaluates the underlying architecture with a minimal harness. It is not an end-to-end benchmark of Metatron’s extraction or serving tools. The <a href="https://github.com/getmetatron/context-md/tree/main/experiment">protocol, data, scripts, and reported deviations</a> are public.</p>
+<h2>Publication &amp; presentation</h2>
+<p>Published October 8, 2026, pages 12–20, in the <em>Proceedings of the 1st International Workshop on Agentic AI for Next-Generation Software Development</em> (AgenticDev ’26), Association for Computing Machinery. DOI: <a href="https://doi.org/10.1145/3843282.3844425">10.1145/3843282.3844425</a>.</p>
+<p>I presented the work in Munich on October 12, 2026 at AgenticDev, co-located with ASE. <a href="https://getmetatron.com/talks/context-inheritance/">View the talk’s slides and download the presentation PDF</a>.</p>
+<h2>Cite this work</h2>
+<pre>
+<code>@inproceedings{kerbel2026contextinheritance,
+  author = {Kerbel, Pavel and Kerbel, Milana and
+            Abramov, Vitali and Abramov, Liat},
+  title = {Context Inheritance: A Git-Native Architecture and
+           Pre-registered Study of Repository Context
+           for AI Coding Agents},
+  booktitle = {Proceedings of the 1st International Workshop on
+               Agentic AI for Next-Generation Software Development},
+  series = {AgenticDev ’26},
+  year = {2026},
+  pages = {12--20},
+  publisher = {Association for Computing Machinery},
+  doi = {10.1145/3843282.3844425},
+  url = {https://doi.org/10.1145/3843282.3844425}
+}</code>
+</pre>
+<h2>Earlier work</h2>
+<p>The <a href="../repository-context-layer/">July 2026 Repository Context Layer preprint</a> introduced the architecture. It remains available as the earlier version; the ACM paper adds the pre-registered empirical study and four-author publication.</p>
+</div>
+<div class="article-foot">
+<span class="sig">By <b>Pavel Kerbel</b> · Milana Kerbel · Vitali Abramov · Liat Abramov</span>
+<a class="backlink" href="../../blog/">More writing →</a>
+</div>
+</div>
+</article>
+</main>  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/>
+</svg> GitHub</a>
+        <a href="https://x.com/kerbelp" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+</svg> X</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/>
+</svg> LinkedIn</a>
+        <a href="https://medium.com/@kerbelp" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z"/>
+</svg> Medium</a>
+        <a href="mailto:hello@pavelkerbel.com">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/>
+<path d="m3 7 9 6 9-6"/>
+</svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>

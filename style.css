@@ -1164,3 +1164,22 @@ html.ready .reveal {
 
 .block { padding: 64px 0; }
 @media (max-width: 640px) { .block { padding: 48px 0; } }
+
+/* Publication feature — follows the existing surface and type scale. */
+.publication-feature { padding: clamp(24px, 4vw, 48px); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-2); }
+.publication-feature h3 { margin: 16px 0 8px; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; }
+.publication-feature h3 a { color: var(--text); }
+.publication-feature h3 a:hover { color: var(--accent); }
+.publication-feature p { max-width: 76ch; line-height: 1.65; color: var(--text-mute); margin: 14px 0; }
+.publication-feature .publication-subtitle { font-size: 19px; color: var(--text); }
+.publication-feature .publication-authors { font-size: 13px; }
+.publication-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 28px; }
+#more-projects .card-top { gap: 12px; }
+#more-projects .card-kind { text-align: right; }
+
+@media (max-width: 600px) {
+  .hero-status { max-width: 100%; white-space: normal; line-height: 1.5; border-radius: 16px; }
+  .hero-status .dot { flex-shrink: 0; }
+  .footer-links { flex-wrap: wrap; }
+  .publication-actions { align-items: flex-start; }
+}

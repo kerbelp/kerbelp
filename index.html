@@ -15,9 +15,9 @@
   <title>Pavel Kerbel — Software Engineer</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Pavel Kerbel - Software Engineer specializing in enterprise-scale cloud infrastructure and GenAI agent architectures. Alumnus of ironSource, Meta, Microsoft, and Palo Alto Networks.">
+  <meta name="description" content="Pavel Kerbel — software engineer building Antaeus, Metatron, and open-source tools. Research on repository context for AI coding agents, published in ACM.">
   <meta property="og:title" content="Pavel Kerbel — Software Engineer">
-  <meta property="og:description" content="Building enterprise-scale cloud infrastructure and production-grade GenAI agent architectures. Field notes on Claude Code, agents, and distributed systems.">
+  <meta property="og:description" content="Agent infrastructure, semantic policy systems, and open-source tools. Creator of Antaeus and Metatron; co-author of Context Inheritance, published in ACM.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pavelkerbel.com/">
   <meta property="og:site_name" content="Pavel Kerbel">
@@ -35,7 +35,7 @@
   <meta name="twitter:site" content="@kerbelp">
   <meta name="twitter:creator" content="@kerbelp">
   <meta name="twitter:title" content="Pavel Kerbel — Software Engineer">
-  <meta name="twitter:description" content="Building enterprise-scale cloud infrastructure and production-grade GenAI agent architectures. Field notes on Claude Code, agents, and distributed systems.">
+  <meta name="twitter:description" content="Agent infrastructure, semantic policy systems, and open-source tools. Creator of Antaeus and Metatron; co-author of Context Inheritance, published in ACM.">
   <meta name="twitter:image" content="https://pavelkerbel.com/assets/og/home.png">
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -83,6 +83,7 @@
       </a>
       <nav class="nav">
         <a href="#projects" class="nav-link active" data-sec="projects">Projects</a>
+        <a href="#research" class="nav-link" data-sec="research">Research</a>
         <a href="#writing" class="nav-link" data-sec="writing">Writing</a>
         <a href="#stack" class="nav-link" data-sec="stack">Stack</a>
         <a href="#contact" class="nav-link" data-sec="contact">Contact</a>
@@ -101,16 +102,16 @@
       <div class="wrap">
         <div class="hero-in">
 
-          <a class="hero-status reveal" href="https://github.com/kerbelp/context-md">
+          <a class="hero-status reveal" href="papers/context-inheritance/">
             <span class="dot"></span>
-            New — Context.md: a proposed standard for AI project context
+            Published in ACM — Context Inheritance · AgenticDev ’26
           </a>
           <h1 class="reveal">
             Pavel Kerbel
             <span class="role">Software Engineer</span>
           </h1>
           <p class="hero-sub reveal">
-            Building <strong>enterprise-scale cloud infrastructure</strong> and <strong>production-grade GenAI agent architectures</strong>. Alumnus of ironSource, Meta, Microsoft, and Palo Alto Networks.
+            Building <strong>agent infrastructure</strong>, <strong>semantic policy systems</strong>, and open-source tools, backed by a career in enterprise-scale cloud infrastructure. Alumnus of ironSource, Meta, Microsoft, and Palo Alto Networks.
           </p>
           <div class="hero-cta reveal">
             <button class="btn btn-primary" id="btn-view-projects">
@@ -131,110 +132,65 @@
       </div>
     </section>
 
-    <!-- Projects Bento Section -->
     <section id="projects" class="block">
       <div class="wrap">
-        <div class="sec-head reveal">
-          <div>
-            <span class="eyebrow">Selected Work</span>
-            <h2 class="sec-title">Systems I've designed &amp; shipped</h2>
-          </div>
-          <a class="sec-link" href="https://github.com/kerbelp" target="_blank" rel="noreferrer">
-            All repositories <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
-          </a>
-        </div>
-        
-        <div class="bento reveal">
-          <!-- Context.md Card -->
-          <article class="card card-span-6" data-project-id="contextmd" role="button" tabindex="0">
-            <div class="card-top">
-              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-5-5Z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h4"/></svg></div>
-              <span class="card-kind">New · Open Standard · Agent Context</span>
-            </div>
-            <h3>Context.md — The Repository Context Layer</h3>
-            <p>A proposed standard for AI project context: one markdown file, versioned with the code, that agents consult before planning and update after executing — under human review. Git stores what changed; Repository Context stores what the project knows. Ships with a minimal spec, an example, and a short whitepaper.</p>
-            <div class="card-foot">
-              <span class="chip">Open Standard</span>
-              <span class="chip">Whitepaper</span>
-              <span class="chip">Git-native</span>
-              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-            </div>
-          </article>
-
-          <!-- Metatron Card -->
-          <article class="card card-span-4" data-project-id="metatron" role="button" tabindex="0">
-            <div class="card-top">
-              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6 10.4 16M16.4 8.7 13.4 16M8.3 6.4h7.4"/></svg></div>
-              <span class="card-kind">MCP · Agent Infra</span>
-            </div>
-            <h3>Metatron</h3>
-            <p>A self-hosted system that maps complex codebase decisions into structured priors, served over Model Context Protocol to autonomous coding agents.</p>
-            <div class="card-foot">
-              <span class="chip">TypeScript</span>
-              <span class="chip">MCP</span>
-              <span class="chip">Vector Store</span>
-              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-            </div>
-          </article>
-
-          <!-- Gemma Guard Card -->
-          <article class="card card-span-2" data-project-id="gemma" role="button" tabindex="0">
-            <div class="card-top">
-              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v2.5M15 2v2.5M9 19.5V22M15 19.5V22M2 9h2.5M2 15h2.5M19.5 9H22M19.5 15H22"/></svg></div>
-              <span class="card-kind">On-device AI · Android</span>
-            </div>
-            <h3>Gemma 4 Edge AI App</h3>
-            <p>A native Android app running a local Gemma 4 E2 model for fully private, on-device text processing under strict mobile hardware constraints.</p>
-            <div class="card-foot">
-              <span class="chip">Kotlin</span>
-              <span class="chip">Gemma 4</span>
-              <span class="chip">On-device</span>
-              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-            </div>
-          </article>
-
-          <!-- AI Collection Card -->
-          <article class="card card-span-2" data-project-id="aicollection" role="button" tabindex="0">
-            <div class="card-top">
-              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg></div>
-              <span class="card-kind">Open Source · Platform</span>
-            </div>
-            <h3>AI Collection</h3>
-            <p>An open-source ecosystem and discovery platform for AI tools — grown into one of the most-starred curated lists in the space.</p>
-            <div class="card-stats">
-              <div class="stat">
-                <span class="num" id="stat-stars" data-target="8700" data-suffix="+">0+</span>
-                <span class="lbl">GitHub stars</span>
-              </div>
-              <div class="stat">
-                <span class="num" id="stat-clicks" data-target="250" data-suffix="K+">0K+</span>
-                <span class="lbl">Search clicks</span>
-              </div>
-            </div>
-            <div class="card-foot">
-              <span class="chip">Open Source</span>
-              <span class="chip">Community</span>
-              <span class="chip">SEO</span>
-              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-            </div>
-          </article>
-
-          <!-- Z-Mail Agent Card -->
-          <article class="card card-span-4" data-project-id="zmail" role="button" tabindex="0">
-            <div class="card-top">
-              <div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h4a3 3 0 0 1 3 3v6"/></svg></div>
-              <span class="card-kind">Agentic Workflows</span>
-            </div>
-            <h3>Z-Mail Agent</h3>
-            <p>A production-grade email automation framework built on LangGraph for deterministic, non-linear agentic workflows.</p>
-            <div class="card-foot">
-              <span class="chip">Python</span>
-              <span class="chip">LangGraph</span>
-              <span class="chip">LLM</span>
-              <span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-            </div>
-          </article>
-        </div>
+        <div class="sec-head reveal"><div><span class="eyebrow">Selected Work</span><h2 class="sec-title">Tools for agents &amp; the systems around them</h2></div><a class="sec-link" href="https://github.com/kerbelp" target="_blank" rel="noreferrer">All repositories <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+        <div class="bento reveal"><article class="card card-span-3" data-project-id="antaeus" role="button" tabindex="0" aria-label="About Antaeus">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h4a3 3 0 0 1 3 3v6"/></svg></div><span class="card-kind">Semantic Policy · Open Source</span></div>
+            <h3>Antaeus</h3><p>Plain-language policies, versioned and tested like code. A Go engine separates model judgment from deterministic outcomes and returns decisions with an audit trail.</p>
+            <div class="card-foot"><span class="chip">Go</span><span class="chip">Policy as Code</span><span class="chip">Regression Tests</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-3" data-project-id="metatron" role="button" tabindex="0" aria-label="About Metatron">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.7 7.6 10.4 16M16.4 8.7 13.4 16M8.3 6.4h7.4"/></svg></div><span class="card-kind">Git-native Context · Agent Infrastructure</span></div>
+            <h3>Metatron</h3><p>Engineering decisions stored as reviewed Markdown in Git. Agents consult the codebase’s conventions before working; an optional MCP layer serves the same knowledge.</p>
+            <div class="card-foot"><span class="chip">Python</span><span class="chip">tree-sitter</span><span class="chip">SQLite</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article></div>
+      </div>
+    </section>
+    <section id="research" class="block">
+      <div class="wrap">
+        <div class="sec-head reveal"><div><span class="eyebrow">Research &amp; Publications</span><h2 class="sec-title">Context that outlives a coding session</h2></div></div>
+        <article class="publication-feature reveal">
+          <span class="eyebrow">ACM · AgenticDev ’26 · October 2026</span>
+          <h3><a href="papers/context-inheritance/">Context Inheritance</a></h3>
+          <p class="publication-subtitle">A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents</p>
+          <p class="publication-authors">Pavel Kerbel · Milana Kerbel · Vitali Abramov · Liat Abramov</p>
+          <p>How can a repository carry what its engineers and agents have learned? Our study examines who should author that context, which agents benefit, and where the approach reaches its limits.</p>
+          <p>Published October 8, 2026 in the ACM proceedings of AgenticDev ’26. Presented at the workshop, co-located with ASE, in Munich on October 12.</p>
+          <div class="publication-actions"><a class="btn btn-primary" href="papers/context-inheritance/">Read the paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="btn btn-ghost" href="https://getmetatron.com/talks/context-inheritance/">Talk &amp; slides <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="sec-link" href="https://github.com/getmetatron/context-md/tree/main/experiment">Replication materials <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+        </article>
+      </div>
+    </section>
+    <section id="more-projects" class="block">
+      <div class="wrap"><div class="sec-head reveal"><div><span class="eyebrow">More Projects</span><h2 class="sec-title">Learning, open standards &amp; useful side projects</h2></div></div>
+        <div class="bento reveal"><article class="card card-span-3" data-project-id="discovery" role="button" tabindex="0" aria-label="About Discovery Quest">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></svg></div><span class="card-kind">Learning Platform · Open Source</span></div>
+            <h3>Discovery Quest</h3><p>Math, English, Logic, and Space adventures guided by Luna the owl. A shared learning engine with voice, validated course data, and optional cloud saves.</p>
+            <div class="card-foot"><span class="chip">React</span><span class="chip">Declarative Courses</span><span class="chip">Voice</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-3" data-project-id="contextmd" role="button" tabindex="0" aria-label="About Context.md — The Repository Context Layer">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-5-5Z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="card-kind">Open Standard · Agent Context</span></div>
+            <h3>Context.md — The Repository Context Layer</h3><p>The Repository Context Layer: a proposed standard for context that branches with the code, is consulted by agents, and evolves under human review.</p>
+            <div class="card-foot"><span class="chip">Open Standard</span><span class="chip">Git</span><span class="chip">Human Review</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-2" data-project-id="gemma" role="button" tabindex="0" aria-label="About Gemma 4 Edge AI App">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v2.5M15 2v2.5M9 19.5V22M15 19.5V22M2 9h2.5M2 15h2.5M19.5 9H22M19.5 15H22"/></svg></div><span class="card-kind">On-device AI · Android</span></div>
+            <h3>Gemma 4 Edge AI App</h3><p>A native Android app running a local Gemma 4 E2 model for private, on-device text processing under mobile hardware constraints.</p>
+            <div class="card-foot"><span class="chip">Kotlin</span><span class="chip">Gemma 4</span><span class="chip">On-device</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-2" data-project-id="aicollection" role="button" tabindex="0" aria-label="About AI Collection">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg></div><span class="card-kind">Open Source · Platform</span></div>
+            <h3>AI Collection</h3><p>An open-source directory and discovery platform for AI tools, built with a community of contributors.</p><div class="card-stats"><div class="stat"><span class="num" id="stat-stars" data-target="9200" data-suffix="+">9,200+</span><span class="lbl">GitHub stars</span></div><div class="stat"><span class="num" id="stat-clicks" data-target="250" data-suffix="K+">250K+</span><span class="lbl">Search clicks</span></div></div>
+            <div class="card-foot"><span class="chip">Open Source</span><span class="chip">Community</span><span class="chip">SEO</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-2" data-project-id="zmail" role="button" tabindex="0" aria-label="About Z-Mail Agent">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 6h4a3 3 0 0 1 3 3v6"/></svg></div><span class="card-kind">Agentic Workflows</span></div>
+            <h3>Z-Mail Agent</h3><p>A configuration-driven email automation framework built with LangGraph for explicit, inspectable agent workflows.</p>
+            <div class="card-foot"><span class="chip">Python</span><span class="chip">LangGraph</span><span class="chip">LLM</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-3" data-project-id="branddesign" role="button" tabindex="0" aria-label="About Iterative Logo &amp; Brand Design">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg></div><span class="card-kind">Agent Skill · Design Tools</span></div>
+            <h3>Iterative Logo &amp; Brand Design</h3><p>A reusable agent skill for exploring and refining logos, with editable assets, actual-size checks, and a documented example of its own identity.</p>
+            <div class="card-foot"><span class="chip">Agent Skill</span><span class="chip">SVG</span><span class="chip">MIT</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article><article class="card card-span-3" data-project-id="hijinks" role="button" tabindex="0" aria-label="About Headline Hijinks">
+            <div class="card-top"><div class="card-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-5-5Z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="card-kind">Browser Extension · Side Project</span></div>
+            <h3>Headline Hijinks</h3><p>A small browser extension for temporarily rewriting a headline in your own tab. Local changes, one-click restore, and no account.</p>
+            <div class="card-foot"><span class="chip">JavaScript</span><span class="chip">Chrome Extension</span><span class="chip">Local Only</span><span class="card-open">Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+          </article></div>
       </div>
     </section>
 
@@ -249,6 +205,9 @@
           <a class="sec-link" href="blog/">All essays <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
         </div>
         <div class="writing-list reveal">
+<a class="post" href="blog/why-i-built-antaeus/" data-tags="antaeus,semantic-policy,open-source"><div class="post-main"><div class="post-meta"><span class="post-tag">Why I Built It</span><span>·</span><span>Oct 2026</span></div><h3>Why I Built Antaeus</h3><p class="post-desc">Turning plain-language policies into versioned, testable decisions: why Antaeus separates model judgment from deterministic application outcomes.</p></div><div class="post-right"><span>4 min</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div></a>
+<a class="post" href="blog/context-inheritance-acm/" data-tags="research,context-inheritance,ai-agents"><div class="post-main"><div class="post-meta"><span class="post-tag">Research</span><span>·</span><span>Oct 2026</span></div><h3>Context Inheritance, Published in ACM</h3><p class="post-desc">Our AgenticDev ’26 paper, the Munich presentation, and what the study says about helping coding agents inherit repository knowledge.</p></div><div class="post-right"><span>3 min</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div></a>
+
           <a class="post" href="blog/why-i-built-discovery-quest/" data-tags="discovery-quest,edtech,ai,elevenlabs,open-core,parenting">
             <div class="post-main">
               <div class="post-meta">
@@ -293,38 +252,6 @@
             </div>
             <div class="post-right">
               <span>8 min</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </div>
-          </a>
-
-          <a class="post" href="blog/claude-code-context-is-a-budget/" data-tags="claude-code,context,tokens,workflow,productivity,ai-infrastructure">
-            <div class="post-main">
-              <div class="post-meta">
-                <span class="post-tag">Claude Code Workflow</span>
-                <span>·</span>
-                <span>2026</span>
-              </div>
-              <h3>Your Context Window Is a Budget</h3>
-              <p class="post-desc">The model is stateless, so every turn re-sends the whole conversation plus fixed overhead. Once you see context as a recurring budget, /context, /compact, /clear and /rewind stop being magic.</p>
-            </div>
-            <div class="post-right">
-              <span>8 min</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </div>
-          </a>
-
-          <a class="post" href="blog/parallel-claude-code-worktrees-named-sessions/" data-tags="claude-code,git-worktrees,sessions,workflow,productivity,ai-infrastructure">
-            <div class="post-main">
-              <div class="post-meta">
-                <span class="post-tag">Claude Code Workflow</span>
-                <span>·</span>
-                <span>2026</span>
-              </div>
-              <h3>Parallel Claude Code: Worktrees and Named Sessions Without the Chaos</h3>
-              <p class="post-desc">Running several agents against one repo breaks on shared state. Here's the collision, and the fix: a worktree per task and a name you can resume by.</p>
-            </div>
-            <div class="post-right">
-              <span>7 min</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </div>
           </a>

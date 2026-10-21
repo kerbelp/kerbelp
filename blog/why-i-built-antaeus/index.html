@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZ51RTLZ8E">
+</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NZ51RTLZ8E');
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why I Built Antaeus — Pavel Kerbel</title>
+<meta name="description" content="Turning plain-language policies into versioned, testable decisions: why Antaeus separates model judgment from deterministic application outcomes.">
+<meta name="author" content="Pavel Kerbel">
+<link rel="canonical" href="https://pavelkerbel.com/blog/why-i-built-antaeus/">
+<meta property="og:title" content="Why I Built Antaeus">
+<meta property="og:description" content="Turning plain-language policies into versioned, testable decisions: why Antaeus separates model judgment from deterministic application outcomes.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pavelkerbel.com/blog/why-i-built-antaeus/">
+<meta property="og:site_name" content="Pavel Kerbel">
+<meta property="og:image" content="https://pavelkerbel.com/assets/og/home.png">
+<meta property="article:published_time" content="2026-10-21T09:00:00+00:00">
+<meta property="article:modified_time" content="2026-10-21T09:00:00+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@kerbelp">
+<meta name="twitter:title" content="Why I Built Antaeus">
+<meta name="twitter:description" content="Turning plain-language policies into versioned, testable decisions: why Antaeus separates model judgment from deterministic application outcomes.">
+<meta name="twitter:image" content="https://pavelkerbel.com/assets/og/home.png">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../blog.css">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0B0B0C">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Why I Built Antaeus",
+  "description": "Turning plain-language policies into versioned, testable decisions: why Antaeus separates model judgment from deterministic application outcomes.",
+  "url": "https://pavelkerbel.com/blog/why-i-built-antaeus/",
+  "mainEntityOfPage": "https://pavelkerbel.com/blog/why-i-built-antaeus/",
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "inLanguage": "en-US",
+  "author": {
+    "@type": "Person",
+    "name": "Pavel Kerbel",
+    "url": "https://pavelkerbel.com/"
+  }
+}</script>
+</head>
+<body>
+  <div class="grain">
+</div>
+
+  <!-- Header -->
+  <header class="hdr" id="header">
+    <div class="wrap hdr-in">
+      <a class="brand" href="../../">
+        <span class="mark">PK</span>
+        Pavel Kerbel
+      </a>
+      <nav class="nav">
+        <a href="../../#projects" class="nav-link">Projects</a>
+        <a href="../../#research" class="nav-link">Research</a>
+        <a href="../" class="nav-link active">Writing</a>
+        <a href="../../#stack" class="nav-link">Stack</a>
+        <a href="../../#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="hdr-right">
+        <a class="icon-btn" href="https://github.com/kerbelp" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/>
+</svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+<main>
+<article class="article" data-tags="antaeus,semantic-policy,open-source">
+<div class="read">
+<a class="backlink" href="../../">← Home</a>
+<header class="article-head">
+<span class="article-tag">Why I Built It</span>
+<h1>Why I Built Antaeus</h1>
+<div class="article-meta">October 21, 2026 · 4 min read · Antaeus · Semantic Policy</div>
+<p class="article-lede">Some product rules depend on meaning: “no counterfeit goods,” “flag harassment,” “review medical claims.” I built Antaeus to give those judgments an explicit policy, an inspectable decision, and a testable path into an application.</p>
+</header>
+<div class="prose">
+<p>A marketplace might prohibit counterfeit goods. A content workflow might flag medical claims. These rules depend on meaning, and the input rarely arrives in a neat shape that an <code>if</code> statement can settle. A language model can help judge the input. The problem starts when the same prompt also owns the policy, the verdict, and the explanation.</p>
+<h2>A prompt is an awkward place to keep a policy</h2>
+<p>If the instruction is buried inside a prompt, a policy edit looks like a wording change. It becomes hard to answer basic questions: which rule matched, which version was in force, and what should happen when the model cannot decide? Those are application questions. They need explicit answers.</p>
+<p>
+<a href="https://github.com/antaeusio/antaeus">Antaeus</a> makes the policy a named, versioned artifact. A rule has a plain-language condition and a fixed outcome. The policy can be checked into Git, reviewed, tested, and identified by a digest in every decision.</p>
+<h2>Ask the model a smaller question</h2>
+<p>The evaluator receives the input and rule conditions. Its job is to report whether each condition applies. It does not choose the business outcome. Antaeus attaches the outcomes declared in the policy and reduces the matched rules deterministically.</p>
+<p>For a marketplace, the condition might be “the listing offers counterfeit goods.” The application’s chosen outcome is <code>deny</code>. The evaluator judges the former; the policy engine owns the latter. A matched deny rule takes precedence.</p>
+<h2>Uncertainty needs a place to go</h2>
+<p>The result is a typed Decision: <code>allow</code>, <code>review</code>, <code>deny</code>, or <code>failure</code>. Completed uncertainty routes to review. A timeout, refusal, malformed response, or execution error is a failure. Those cases should not silently become permission to proceed.</p>
+<p>The decision records the policy digest, evaluator information, and attempts. An application can inspect what happened and choose how to route a review or recover from a failure.</p>
+<h2>Make the rule change reviewable</h2>
+<p>The other half is regression testing. Named input cases and expected outcomes let a team ask what a policy edit changes before shipping it. A deterministic fixture evaluator runs those checks offline without credentials. Model-backed checks are a separate question: a passing fixture test verifies the policy mechanics, not a model’s judgment accuracy.</p>
+<h2>A small engine, with explicit limits</h2>
+<p>Antaeus is a local-first Go engine and CLI, with no required account, service, or database. Evaluators sit behind an interface, while retries, deadlines, and fallbacks live in an evaluator profile.</p>
+<p>It is early, pre-v1 software. The model-backed evaluators are experimental and have not yet been measured for accuracy. A deterministic reducer makes the handling of model judgments inspectable; it does not make those judgments infallible. Ordinary authorization checks and rules that can be expressed reliably in code should stay in code.</p>
+<p>The useful boundary is the one I wanted to build: a model can help interpret meaning, while the application keeps ownership of its policy and outcomes.</p>
+<p>
+<a href="https://github.com/antaeusio/antaeus">
+<strong>Explore Antaeus on GitHub</strong>
+</a> · <a href="https://github.com/antaeusio/antaeus/blob/main/docs/quickstart.md">Run the offline quickstart</a> · <a href="https://antaeus.io/">Project website</a>
+</p>
+</div>
+<div class="article-foot">
+<span class="sig">Written by <b>Pavel Kerbel</b> — Software Engineer.</span>
+<a class="backlink" href="../../blog/">More writing →</a>
+</div>
+</div>
+</article>
+</main>  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-links">
+        <a href="https://github.com/kerbelp" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/>
+</svg> GitHub</a>
+        <a href="https://x.com/kerbelp" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+</svg> X</a>
+        <a href="https://www.linkedin.com/in/kerbelp/" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/>
+</svg> LinkedIn</a>
+        <a href="https://medium.com/@kerbelp" target="_blank" rel="noreferrer">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z"/>
+</svg> Medium</a>
+        <a href="mailto:hello@pavelkerbel.com">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/>
+<path d="m3 7 9 6 9-6"/>
+</svg> Email</a>
+      </div>
+      <span class="copyright">© 2026 Pavel Kerbel</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('ready');
+    var hdr = document.getElementById('header');
+    var onScroll = function () { hdr.classList.toggle('scrolled', window.scrollY > 8); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>

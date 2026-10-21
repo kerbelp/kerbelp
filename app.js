@@ -7,105 +7,320 @@ const EMAIL = "hello@pavelkerbel.com";
 // --- Project Data ---
 const PROJECTS = [
   {
-    id: "contextmd",
-    kind: "New · Open Standard · Agent Context",
-    glyph: "fileText",
-    title: "Context.md — The Repository Context Layer",
-    chips: ["Open Standard", "Whitepaper", "Git-native"],
-    repo: "https://github.com/kerbelp/context-md",
-    lede: "AI agents re-litigate settled decisions because the reasons live in chat scrollback and people's heads. Context.md proposes the missing layer: a version-controlled, human-readable context store agents are required to consult before planning and expected to update after executing — under human review.",
-    points: [
+    "id": "antaeus",
+    "kind": "Semantic Policy · Open Source",
+    "glyph": "flow",
+    "title": "Antaeus",
+    "chips": [
+      "Go",
+      "Policy as Code",
+      "Regression Tests"
+    ],
+    "repo": "https://github.com/antaeusio/antaeus",
+    "lede": "An open-source semantic policy engine and CLI. Write plain-language rule conditions with fixed outcomes, then get a typed, traceable decision tied to the exact policy version.",
+    "points": [
+      "The evaluator judges whether each condition applies; deterministic code applies the policy outcomes.",
+      "Decisions distinguish allow, review, deny, and failure, recording policy digests and evaluator traces.",
+      "Offline regression cases make policy changes testable before they reach an application.",
+      "Early, pre-v1 software. Model-backed evaluators are experimental and their accuracy has not yet been measured."
+    ],
+    "links": [
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/antaeusio/antaeus",
+        "icon": "github"
+      },
+      {
+        "label": "Visit Antaeus",
+        "href": "https://antaeus.io/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "Why I built it",
+        "href": "/blog/why-i-built-antaeus/",
+        "icon": "arrowUpRight"
+      }
+    ]
+  },
+  {
+    "id": "metatron",
+    "kind": "Git-native Context · Agent Infrastructure",
+    "glyph": "graph",
+    "title": "Metatron",
+    "chips": [
+      "Python",
+      "tree-sitter",
+      "SQLite",
+      "Optional MCP"
+    ],
+    "repo": "https://github.com/kerbelp/metatron",
+    "lede": "A codebase should carry the reasons behind its engineering decisions. Metatron stores patterns, constraints, and rejected approaches as reviewed Markdown files in Git. Coding agents consult them before working and propose what they learn for human review.",
+    "points": [
+      "Files are the default: any coding agent that can read the repository can use its decisions, with no server required.",
+      "Decisions travel with the code through branches, pull requests, and rollback.",
+      "An optional self-hosted MCP layer adds relevance-ranked serving over a local SQLite store.",
+      "Reference implementation of the Repository Context Layer; the published study evaluates the underlying context architecture."
+    ],
+    "links": [
+      {
+        "label": "Visit Metatron",
+        "href": "https://getmetatron.com/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/kerbelp/metatron",
+        "icon": "github"
+      },
+      {
+        "label": "Watch the demo",
+        "href": "https://youtu.be/RdPn6OMtfOs",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "Read the ACM paper",
+        "href": "/papers/context-inheritance/",
+        "icon": "arrowUpRight"
+      }
+    ]
+  },
+  {
+    "id": "discovery",
+    "kind": "Learning Platform · Open Source",
+    "glyph": "compass",
+    "title": "Discovery Quest",
+    "chips": [
+      "React",
+      "Declarative Courses",
+      "Voice"
+    ],
+    "repo": "https://github.com/discoveryquest/discovery-quest",
+    "lede": "Learning adventures for curious kids, guided by Luna the owl. Math, English, Logic, and Space share a reusable engine, with courses authored as data and reviewed by people.",
+    "points": [
+      "Four playable quests, with narration, guided activities, and a shared course engine.",
+      "Course structure, lessons, and narration are declarative content an AI can draft and a validator can check.",
+      "Children can play without an account; an optional parent account backs up progress across quests.",
+      "The hosted platform returned in October 2026 on Cloudflare Workers, with per-parent SQLite Durable Objects for cloud saves."
+    ],
+    "links": [
+      {
+        "label": "Play a quest",
+        "href": "https://discoveryquest.app/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "Open-source engine",
+        "href": "https://github.com/discoveryquest/discovery-quest",
+        "icon": "github"
+      },
+      {
+        "label": "Why I built it",
+        "href": "/blog/why-i-built-discovery-quest/",
+        "icon": "arrowUpRight"
+      }
+    ]
+  },
+  {
+    "id": "contextmd",
+    "kind": "Open Standard · Agent Context",
+    "glyph": "fileText",
+    "title": "Context.md — The Repository Context Layer",
+    "chips": [
+      "Open Standard",
+      "Git",
+      "Human Review"
+    ],
+    "repo": "https://github.com/getmetatron/context-md",
+    "lede": "AI agents re-litigate settled decisions because the reasons live in chat scrollback and people's heads. Context.md proposes the missing layer: a version-controlled, human-readable context store agents are required to consult before planning and expected to update after executing — under human review.",
+    "points": [
       "Three sections — Intent, Constraints, Evolved Context — where every rule carries its reason, so agents can generalize instead of merely comply.",
       "Context changes travel in the same reviewed commit as the code that motivated them: the agent's beliefs are in the diff.",
       "Branch-aware for free: context branches, merges, and rolls back with the repository it describes.",
-      "Tool-independent — no SDK, no server. Any agent that can read a file participates; any human with a text editor is a first-class writer.",
+      "Tool-independent — no SDK, no server. Any agent that can read a file participates; any human with a text editor is a first-class writer."
     ],
-    links: [
-      { label: "View on GitHub", href: "https://github.com/kerbelp/context-md", icon: "github" },
-      { label: "Read the paper", href: "/papers/repository-context-layer/", icon: "arrowUpRight" },
-      { label: "Read the whitepaper", href: "https://github.com/kerbelp/repository-context-layer", icon: "arrowUpRight" },
-      { label: "Minimal spec", href: "https://github.com/kerbelp/context-md/blob/main/SPEC.md", icon: "arrowUpRight" },
-    ],
+    "links": [
+      {
+        "label": "Specification & research",
+        "href": "https://github.com/getmetatron/context-md",
+        "icon": "github"
+      },
+      {
+        "label": "Published ACM paper",
+        "href": "/papers/context-inheritance/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "Original July preprint",
+        "href": "/papers/repository-context-layer/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "Reference implementation",
+        "href": "https://github.com/kerbelp/metatron",
+        "icon": "github"
+      }
+    ]
   },
   {
-    id: "metatron",
-    kind: "MCP · Agent Infra",
-    glyph: "graph",
-    title: "Metatron",
-    chips: ["TypeScript", "MCP", "Vector Store"],
-    repo: "https://github.com/kerbelp/metatron",
-    lede: "Coding agents lose the why behind a codebase the moment a session ends. Metatron persists architectural intent — decisions, constraints, and rationale — as structured priors and serves them to agents at inference time over the Model Context Protocol.",
-    points: [
-      "Captures design decisions as queryable, structured priors rather than freeform notes.",
-      "Exposes context to any MCP-compatible agent — no per-tool integration work.",
-      "Self-hosted by design: your architectural knowledge never leaves your infrastructure.",
-      "Cuts hallucinated refactors by grounding agents in real prior decisions.",
+    "id": "gemma",
+    "kind": "On-device AI · Android",
+    "glyph": "cpu",
+    "title": "Gemma 4 Edge AI App",
+    "chips": [
+      "Kotlin",
+      "Gemma 4",
+      "On-device"
     ],
-    links: [
-      { label: "Visit the site", href: "http://getmetatron.com/", icon: "arrowUpRight" },
-      { label: "View on GitHub", href: "https://github.com/kerbelp/metatron", icon: "github" },
-    ],
-  },
-  {
-    id: "gemma",
-    kind: "On-device AI · Android",
-    glyph: "cpu",
-    title: "Gemma 4 Edge AI App",
-    chips: ["Kotlin", "Gemma 4", "On-device"],
-    repo: "https://github.com/GemmaGuard/gemma-guard-android",
-    lede: "Cloud inference means shipping user text off-device. This app runs a quantized Gemma 4 E2 model entirely on the phone — private by construction, functional offline, and tuned to live inside a mobile memory and thermal budget.",
-    points: [
+    "repo": "https://github.com/GemmaGuard/gemma-guard-android",
+    "lede": "Cloud inference means shipping user text off-device. This app runs a quantized Gemma 4 E2 model entirely on the phone — private by construction, functional offline, and tuned to live inside a mobile memory and thermal budget.",
+    "points": [
       "Local Gemma 4 E2 inference with no network round-trip — zero data leaves the device.",
       "Aggressive quantization and memory management to fit consumer Android hardware.",
       "Throughput tuned against real thermal and battery constraints, not benchmarks.",
-      "Built for the Gemma 4 hackathon — full architecture writeup published.",
+      "Built for the Gemma 4 hackathon — full architecture writeup published."
     ],
-    links: [
-      { label: "Get it on Google Play", href: "https://play.google.com/store/apps/details?id=org.gemmaguard.android", icon: "googlePlay" },
-      { label: "Visit the site", href: "https://gemmaguard.org/", icon: "arrowUpRight" },
-      { label: "View on GitHub", href: "https://github.com/GemmaGuard/gemma-guard-android", icon: "github" },
-      { label: "Read the writeup", href: "https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1775994235038", icon: "arrowUpRight" },
-    ],
+    "links": [
+      {
+        "label": "Get it on Google Play",
+        "href": "https://play.google.com/store/apps/details?id=org.gemmaguard.android",
+        "icon": "googlePlay"
+      },
+      {
+        "label": "Visit the site",
+        "href": "https://gemmaguard.org/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/GemmaGuard/gemma-guard-android",
+        "icon": "github"
+      },
+      {
+        "label": "Read the writeup",
+        "href": "https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1775994235038",
+        "icon": "arrowUpRight"
+      }
+    ]
   },
   {
-    id: "aicollection",
-    kind: "Open Source · Platform",
-    glyph: "layers",
-    title: "AI Collection",
-    chips: ["Open Source", "Community", "SEO"],
-    repo: "https://github.com/ai-collection/ai-collection",
-    stats: [
-      { num: 8700, suffix: "+", lbl: "GitHub stars" },
-      { num: 250, suffix: "K+", lbl: "Search clicks" },
+    "id": "aicollection",
+    "kind": "Open Source · Platform",
+    "glyph": "layers",
+    "title": "AI Collection",
+    "chips": [
+      "Open Source",
+      "Community",
+      "SEO"
     ],
-    lede: "A community-curated directory of generative-AI applications that scaled into a genuine discovery platform — ranking organically for thousands of AI-tool queries and sustaining a contributor ecosystem.",
-    points: [
-      "Scaled to 8,700+ GitHub stars through sustained community contribution.",
+    "repo": "https://github.com/ai-collection/ai-collection",
+    "stats": [
+      {
+        "num": 9200,
+        "suffix": "+",
+        "lbl": "GitHub stars"
+      },
+      {
+        "num": 250,
+        "suffix": "K+",
+        "lbl": "Search clicks"
+      }
+    ],
+    "lede": "A community-curated directory of generative-AI applications that scaled into a genuine discovery platform — ranking organically for thousands of AI-tool queries and sustaining a contributor ecosystem.",
+    "points": [
+      "Grown to more than 9,200 GitHub stars through community contribution (October 2026).",
       "Drove 250K+ organic Google Search clicks via structured, SEO-aware curation.",
       "Maintained an open contribution pipeline across hundreds of submissions.",
-      "Became a default reference point for discovering generative-AI tooling.",
+      "Became a default reference point for discovering generative-AI tooling."
     ],
-    links: [
-      { label: "Visit the site", href: "http://thataicollection.com/", icon: "arrowUpRight" },
-      { label: "View on GitHub", href: "https://github.com/ai-collection/ai-collection", icon: "github" },
-    ],
+    "links": [
+      {
+        "label": "Visit the site",
+        "href": "https://thataicollection.com/",
+        "icon": "arrowUpRight"
+      },
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/ai-collection/ai-collection",
+        "icon": "github"
+      }
+    ]
   },
   {
-    id: "zmail",
-    kind: "Agentic Workflows",
-    glyph: "flow",
-    title: "Z-Mail Agent",
-    chips: ["Python", "LangGraph", "LLM"],
-    repo: "https://github.com/kerbelp",
-    lede: "Most LLM email tools are a single brittle prompt. Z-Mail models the inbox as an explicit state graph — triage, drafting, and escalation become deterministic, inspectable transitions rather than emergent prompt behavior.",
-    points: [
+    "id": "zmail",
+    "kind": "Agentic Workflows",
+    "glyph": "flow",
+    "title": "Z-Mail Agent",
+    "chips": [
+      "Python",
+      "LangGraph",
+      "LLM"
+    ],
+    "repo": "https://github.com/kerbelp/z-mail-agent",
+    "lede": "Most LLM email tools are a single brittle prompt. Z-Mail models the inbox as an explicit state graph — triage, drafting, and escalation become deterministic, inspectable transitions rather than emergent prompt behavior.",
+    "points": [
       "Non-linear agentic flows modeled as an explicit, auditable LangGraph state machine.",
       "Deterministic transitions make behavior reproducible and debuggable in production.",
       "Human-in-the-loop checkpoints for escalation on low-confidence actions.",
-      "Built to run as real infrastructure — not a notebook demo.",
+      "Built to run as real infrastructure — not a notebook demo."
     ],
-    links: [{ label: "View on GitHub", href: "https://github.com/kerbelp", icon: "github" }],
+    "links": [
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/kerbelp/z-mail-agent",
+        "icon": "github"
+      }
+    ]
   },
+  {
+    "id": "branddesign",
+    "kind": "Agent Skill · Design Tools",
+    "glyph": "layers",
+    "title": "Iterative Logo & Brand Design",
+    "chips": [
+      "Agent Skill",
+      "SVG",
+      "MIT"
+    ],
+    "repo": "https://github.com/kerbelp/iterative-logo-brand-design",
+    "lede": "A reusable agent skill for developing logos through exploration, feedback, and reproduction checks. Its own identity is a documented example of the workflow.",
+    "points": [
+      "Compare distinct concepts before refining an approved direction.",
+      "Preserve design decisions through iteration and keep editable artwork separate from concept previews.",
+      "Check marks at actual icon sizes and in light, dark, and monochrome treatments."
+    ],
+    "links": [
+      {
+        "label": "Explore the skill",
+        "href": "https://github.com/kerbelp/iterative-logo-brand-design",
+        "icon": "github"
+      }
+    ]
+  },
+  {
+    "id": "hijinks",
+    "kind": "Browser Extension · Side Project",
+    "glyph": "fileText",
+    "title": "Headline Hijinks",
+    "chips": [
+      "JavaScript",
+      "Chrome Extension",
+      "Local Only"
+    ],
+    "repo": "https://github.com/kerbelp/headline-hijinks",
+    "lede": "Rewrite the main headline in your own browser tab for a little harmless mischief. Changes are temporary and stay on your device.",
+    "points": [
+      "Edit a visible headline or choose a ready-made suggestion.",
+      "Restore the original with one click or refresh the page.",
+      "No account or server; the underlying website is never changed."
+    ],
+    "links": [
+      {
+        "label": "View on GitHub",
+        "href": "https://github.com/kerbelp/headline-hijinks",
+        "icon": "github"
+      }
+    ]
+  }
 ];
 
 // --- Inlined SVG Icons ---
@@ -177,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 4. Scroll Spy (Active nav highlighting)
   const navLinks = document.querySelectorAll(".nav-link");
-  const sections = ["projects", "writing", "stack", "contact"];
+  const sections = ["projects", "research", "writing", "stack", "contact"];
   const updateActiveNav = () => {
     const scrollPos = window.scrollY + 140;
     let activeSec = sections[0];
